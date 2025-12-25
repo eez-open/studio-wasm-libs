@@ -132,7 +132,11 @@ typedef struct {
 } my_file_t;
 
 #if LVGL_VERSION_MAJOR >= 9
+#if LVGL_VERSION_MINOR >= 3
+bool my_ready_cb(lv_fs_drv_t * drv) {
+#else
 bool my_ready_cb(struct lv_fs_drv_t * drv) {
+#endif
 #else
 bool my_ready_cb(struct _lv_fs_drv_t * drv) {
 #endif
@@ -141,8 +145,13 @@ bool my_ready_cb(struct _lv_fs_drv_t * drv) {
 }
 
 #if LVGL_VERSION_MAJOR >= 9
+#if LVGL_VERSION_MINOR >= 3
+void *my_open_cb(lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode) {
+    my_file_t *file = (my_file_t *)lv_malloc(sizeof(my_file_t));
+#else
 void *my_open_cb(struct lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode) {
     my_file_t *file = (my_file_t *)lv_malloc(sizeof(my_file_t));
+#endif
 #else
 void *my_open_cb(struct _lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode) {
     my_file_t *file = (my_file_t *)lv_mem_alloc(sizeof(my_file_t));
@@ -155,8 +164,13 @@ void *my_open_cb(struct _lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode
 }
 
 #if LVGL_VERSION_MAJOR >= 9
+#if LVGL_VERSION_MINOR >= 3
+lv_fs_res_t my_close_cb(lv_fs_drv_t * drv, void * file_p) {
+    lv_free(file_p);
+#else
 lv_fs_res_t my_close_cb(struct lv_fs_drv_t * drv, void * file_p) {
     lv_free(file_p);
+#endif
 #else
 lv_fs_res_t my_close_cb(struct _lv_fs_drv_t * drv, void * file_p) {
     lv_mem_free(file_p);
@@ -166,7 +180,11 @@ lv_fs_res_t my_close_cb(struct _lv_fs_drv_t * drv, void * file_p) {
 }
 
 #if LVGL_VERSION_MAJOR >= 9
+#if LVGL_VERSION_MINOR >= 3
+lv_fs_res_t my_read_cb(lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * br) {
+#else
 lv_fs_res_t my_read_cb(struct lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * br) {
+#endif
 #else
 lv_fs_res_t my_read_cb(struct _lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * br) {
 #endif
@@ -180,7 +198,11 @@ lv_fs_res_t my_read_cb(struct _lv_fs_drv_t * drv, void * file_p, void * buf, uin
 }
 
 #if LVGL_VERSION_MAJOR >= 9
+#if LVGL_VERSION_MINOR >= 3
+lv_fs_res_t my_seek_cb(lv_fs_drv_t * drv, void * file_p, uint32_t pos, lv_fs_whence_t whence) {
+#else
 lv_fs_res_t my_seek_cb(struct lv_fs_drv_t * drv, void * file_p, uint32_t pos, lv_fs_whence_t whence) {
+#endif
 #else
 lv_fs_res_t my_seek_cb(struct _lv_fs_drv_t * drv, void * file_p, uint32_t pos, lv_fs_whence_t whence) {
 #endif
@@ -198,7 +220,11 @@ lv_fs_res_t my_seek_cb(struct _lv_fs_drv_t * drv, void * file_p, uint32_t pos, l
 }
 
 #if LVGL_VERSION_MAJOR >= 9
+#if LVGL_VERSION_MINOR >= 3
+lv_fs_res_t my_tell_cb(lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p) {
+#else
 lv_fs_res_t my_tell_cb(struct lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p) {
+#endif
 #else
 lv_fs_res_t my_tell_cb(struct _lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p) {
 #endif

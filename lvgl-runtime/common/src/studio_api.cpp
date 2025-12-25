@@ -97,12 +97,12 @@ EM_PORT_API(bool) lvglObjHasFlag(lv_obj_t *obj, lv_obj_flag_t f) {
     return lv_obj_has_flag(obj, f);
 }
 
-EM_PORT_API(void) lvglObjAddState(lv_obj_t *obj, lv_obj_flag_t s) {
+EM_PORT_API(void) lvglObjAddState(lv_obj_t *obj, lv_state_t s) {
     lv_obj_add_state(obj, s);
     lv_obj_update_layout(obj);
 }
 
-EM_PORT_API(void) lvglObjClearState(lv_obj_t *obj, lv_obj_flag_t s) {
+EM_PORT_API(void) lvglObjClearState(lv_obj_t *obj, lv_state_t s) {
     lv_obj_clear_state(obj, s);
     lv_obj_update_layout(obj);
 }
