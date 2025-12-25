@@ -1,3 +1,9 @@
 [submodule "eez-framework"]
 	path = eez-framework
 	url = https://github.com/eez-open/eez-framework
+[submodule "lvgl-runtime/v8.4.0/lvgl"]
+	path = lvgl-runtime/v8.4.0/lvgl
+	url = https://github.com/lvgl/lvgl
+[submodule "lvgl-runtime/v9.2.2/lvgl"]
+	path = lvgl-runtime/v9.2.2/lvgl
+	url = https://github.com/lvgl/lvgl
