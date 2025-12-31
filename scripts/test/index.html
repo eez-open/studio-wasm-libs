@@ -1,0 +1,235 @@
+<canvas id="canvas"></canvas>
+
+<script>
+    const module = {};
+    const __dirname = "/wasm"
+</script>
+
+<script src="wasm/lvgl_runtime_v9.2.2.js"></script>
+<script>
+const lvglConstructor = module["exports"];
+</script>
+<script src="script-compiler.js"></script>
+
+<script>
+    const DISPLAY_WIDTH = 800;
+    const DISPLAY_HEIGHT = 480;
+    const FPS = 60;
+
+    canvas.width = DISPLAY_WIDTH;
+    canvas.height = DISPLAY_HEIGHT;
+    const ctx = canvas.getContext("2d");
+
+    // events
+    let pointerEvents = [];
+    let wheelUpdated = false;
+    let wheelPressed = 0;
+    let wheelDeltaY = 0;
+
+    function onWasmLoaded() {
+        wasm._init(
+            0, // uint32_t wasmModuleId
+            0, // uint32_t debuggerMessageSubsciptionFilter
+            0, // uint8_t *assets
+            1, // uint32_t assetsSize
+            DISPLAY_WIDTH,  // uint32_t displayWidth 
+            DISPLAY_HEIGHT, // uint32_t displayHeight
+            false, // bool darkTheme
+            0, // uint32_t timeZone,
+            0  // bool screensLifetimeSupport
+        );
+
+        setupEvents();
+        initScreen(wasm);
+        mainLoop();
+    }
+
+    function sendPointerEvent(event) {
+        var bbox = canvas.getBoundingClientRect();
+
+        const left = 0;
+        const top = 0;
+        const width = DISPLAY_WIDTH;
+        const height = DISPLAY_HEIGHT;
+
+        const x =
+            (event.clientX -
+                bbox.left -
+                (left + (DISPLAY_WIDTH - width) / 2)) *
+            (canvas.width / bbox.width);
+
+        const y =
+            (event.clientY -
+                bbox.top -
+                (top + (DISPLAY_HEIGHT - height) / 2)) *
+            (canvas.height / bbox.height);
+
+        const pressed = event.buttons == 1 ? 1 : 0;
+
+        pointerEvents.push({ x, y, pressed });
+
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    function setupEvents() {
+        canvas.addEventListener("pointerdown", event => {
+            canvas.focus();
+
+            if (event.buttons == 4) {
+                wheelUpdated = true;
+                wheelPressed = 1;
+            }
+
+            canvas.setPointerCapture(event.pointerId);
+            sendPointerEvent(event);
+
+        }, true);
+
+        canvas.addEventListener("pointermove", event => {
+            sendPointerEvent(event);
+        }, true);
+
+        canvas.addEventListener("pointerup", event => {
+            wheelUpdated = true;
+            wheelPressed = 0;
+
+            canvas.releasePointerCapture(event.pointerId);
+            sendPointerEvent(event);
+        }, true);
+
+        canvas.addEventListener("pointercancel", event => {
+            wheelUpdated = true;
+            wheelPressed = 0;
+
+            canvas.releasePointerCapture(event.pointerId);
+            sendPointerEvent(event);
+        }, true);
+
+        canvas.addEventListener("wheel", event => {
+            canvas.focus();
+
+            wheelUpdated = true;
+            wheelDeltaY += event.deltaY;
+
+        }, { passive: false });
+    }
+
+    const LVGL_CONSTANTS = {
+        LV_SCR_LOAD_ANIM_FADE_IN: 9,
+        LV_SIZE_CONTENT: 1073741823,
+        LV_ALIGN_CENTER: 9,
+        LV_PART_MAIN: 0,
+        LV_STATE_DEFAULT: 0
+    }
+
+    // Compile the simplified script
+    const script = compile_to_javascript(`
+        function create_button(parent: lv_obj, label_text: string): lv_obj {
+            let button: lv_obj = lv_button_create(parent);
+            lv_obj_set_pos(button, 307, 374);
+            lv_obj_set_size(button, 187, 50);
+
+            const label: lv_obj = lv_label_create(button);
+            lv_obj_set_pos(label, 0, 0);
+            lv_obj_set_size(label, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_obj_set_style_align(label, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+            // Automatic string to cstring conversion happens here
+            lv_label_set_text(label, label_text);
+            return button;
+        }
+
+        function init_screen(label_text: string): lv_obj {
+            let screen: lv_obj = lv_obj_create(0);
+            lv_screen_load_anim(screen, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false);
+            create_button(screen, label_text);
+            return screen;
+        }
+    `);
+
+    function initScreen(lvgl) {
+        // Initialize the compiled script with globals (including type info), lvgl instance and constants
+        const globals = {
+            System: {
+                stringToNewUTF8: {
+                    function: lvgl.stringToNewUTF8.bind(lvgl),
+                    params: ['string'],
+                    returnType: 'number'
+                }
+            }
+        };
+        
+        // Whitelist of allowed LVGL functions with type information
+        const allowedFunctions = {
+            'lv_obj_create': { params: ['number'], returnType: 'lv_obj' },
+            'lv_button_create': { params: ['lv_obj'], returnType: 'lv_obj' },
+            'lv_label_create': { params: ['lv_obj'], returnType: 'lv_obj' },
+            'lv_obj_set_pos': { params: ['lv_obj', 'number', 'number'], returnType: 'number' },
+            'lv_obj_set_size': { params: ['lv_obj', 'number', 'number'], returnType: 'number' },
+            'lv_obj_set_style_align': { params: ['lv_obj', 'number', 'number'], returnType: 'number' },
+            'lv_label_set_text': { params: ['lv_obj', 'cstring'], returnType: 'number' },
+            'lv_screen_load_anim': { params: ['lv_obj', 'number', 'number', 'number', 'bool'], returnType: 'number' }
+        };
+        
+        script.init(globals, lvgl, LVGL_CONSTANTS, allowedFunctions);
+        
+        // Execute the init_screen function
+        script.exec("init_screen", "My Button");
+    }
+
+    function mainLoop() {
+        //
+        for (let i = 0; i < pointerEvents.length; i++) {
+            const pointerEvent = pointerEvents[i];
+            wasm._onPointerEvent(
+                pointerEvent.x,
+                pointerEvent.y,
+                pointerEvent.pressed
+            );
+        }
+        pointerEvents = [];
+
+        if (wheelUpdated) {
+            wasm._onMouseWheelEvent(
+                wheelDeltaY,
+                wheelPressed
+            );
+
+            wheelUpdated = false;
+            wheelDeltaY = 0;
+        }
+
+        wasm._mainLoop();
+
+        var buf_addr = wasm._getSyncedBuffer();
+        if (buf_addr != 0) {
+            const screen = new Uint8ClampedArray(
+                wasm.HEAPU8.subarray(
+                    buf_addr,
+                    buf_addr + DISPLAY_WIDTH * DISPLAY_HEIGHT * 4
+                )
+            );
+
+            var imgData = new ImageData(
+                screen,
+                DISPLAY_WIDTH,
+                DISPLAY_HEIGHT
+            );
+
+            ctx.putImageData(
+                imgData,
+                0,
+                0,
+                0,
+                0,
+                DISPLAY_WIDTH,
+                DISPLAY_HEIGHT
+            );
+        }
+
+        setTimeout(mainLoop, 1000 / FPS);
+    }
+
+    const wasm = lvglConstructor(onWasmLoaded);
+
+</script>

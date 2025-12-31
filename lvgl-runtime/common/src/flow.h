@@ -6,8 +6,6 @@
 
 #include <eez/flow/lvgl_api.h>
 
-extern bool is_editor;
-
 extern uint32_t screenLoad_animType;
 extern uint32_t screenLoad_speed;
 extern uint32_t screenLoad_delay;

@@ -23,7 +23,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool is_editor = false;
 bool g_screensLifetimeSupport = false;
 
 uint32_t screenLoad_animType = 0;

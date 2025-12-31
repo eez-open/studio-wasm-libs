@@ -14,8 +14,6 @@
 
 #define EEZ_UNUSED(x) (void)(x)
 
-static void hal_init();
-
 int hor_res;
 int ver_res;
 
@@ -274,7 +272,7 @@ EM_PORT_API(void) lvglSetKeyboardGroup(lv_group_t *group) {
     lv_indev_set_group(keyboard_indev, group);
 }
 
-static void hal_init() {
+EM_PORT_API(void) hal_init(bool is_editor) {
     // alloc memory for the display front buffer
     display_fb = (uint32_t *)malloc(sizeof(uint32_t) * hor_res * ver_res);
     memset(display_fb, 0x44, hor_res * ver_res * sizeof(uint32_t));
@@ -356,7 +354,7 @@ static uint32_t g_prevTick;
 #endif
 
 EM_PORT_API(void) init(uint32_t wasmModuleId, uint32_t debuggerMessageSubsciptionFilter, uint8_t *assets, uint32_t assetsSize, uint32_t displayWidth, uint32_t displayHeight, bool darkTheme, uint32_t timeZone, bool screensLifetimeSupport) {
-    is_editor = assetsSize == 0;
+    bool is_editor = assetsSize == 0;
 
     hor_res = displayWidth;
     ver_res = displayHeight;
@@ -365,13 +363,13 @@ EM_PORT_API(void) init(uint32_t wasmModuleId, uint32_t debuggerMessageSubsciptio
     lv_init();
 
     /*Initialize the HAL (display, input devices, tick) for LittlevGL*/
-    hal_init();
+    hal_init(is_editor);
 
     lv_disp_t *dispp = lv_disp_get_default();
     lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), darkTheme, LV_FONT_DEFAULT);
     lv_disp_set_theme(dispp, theme);
 
-    if (!is_editor) {
+    if (!is_editor && assets) {
         flowInit(wasmModuleId, debuggerMessageSubsciptionFilter, assets, assetsSize, darkTheme, timeZone, screensLifetimeSupport);
     }
 
@@ -1327,6 +1325,8 @@ void dump_constants() {
     dump_constant_undefined("LV_PCT_POS_MAX");
 #endif
 
+    dump_constant("LV_ALIGN_CENTER", LV_ALIGN_CENTER);
+
     dump_constant_last("dummy", 0);
 }
 
@@ -1334,7 +1334,7 @@ EM_PORT_API(const char *) getStudioSymbols() {
     hor_res = 400;
     ver_res = 400;
     lv_init();
-    hal_init();
+    hal_init(true);
 
     lv_disp_t *dispp = lv_disp_get_default();
     lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), true, LV_FONT_DEFAULT);
@@ -1359,4 +1359,318 @@ EM_PORT_API(const char *) getStudioSymbols() {
     symbols_append("}}");
 
     return g_symbolsString.ptr;
+}
+
+/*
+ * Compile-only function that references LVGL APIs to ensure
+ * their symbols and signatures are validated across supported LVGL versions.
+ * This function is intentionally unused and must NOT be invoked at runtime.
+ */
+static void __attribute__((used)) api_usage(void) {
+    /* dummy arguments used only to ensure code compiles */
+    lv_obj_t *obj = (lv_obj_t *)0;
+    const char *str = "";
+    lv_color_t color = lv_color_hex(0);
+    int32_t iv = 0;
+    uint32_t uiv = 0;
+    bool b = false;
+    lv_point_t pts[2] = {{0, 0}, {0, 0}};
+#if LVGL_VERSION_MAJOR >= 9
+    lv_point_precise_t pts_precise[2] = {{0, 0}, {0, 0}};
+#endif
+    lv_style_t style;
+    lv_style_transition_dsc_t trans;
+    lv_calendar_date_t date = {0};
+    lv_style_value_t style_val;
+    /* silence unused-variable warnings (compile-only references) */
+    (void)iv; (void)uiv; (void)b; (void)pts; (void)style; (void)trans; (void)date; (void)style_val; (void)str;
+#if LVGL_VERSION_MAJOR >= 9
+    (void)pts_precise;
+#endif
+    lv_style_init(&style);
+
+    /* Common calls across LVGL versions */
+    lv_animimg_set_duration(obj, 0);
+    lv_animimg_set_repeat_count(obj, 0);
+    lv_animimg_set_src(obj, (const void *[]){NULL}, 0);
+    lv_animimg_start(obj);
+    lv_arc_set_bg_end_angle(obj, 0);
+    lv_arc_set_bg_start_angle(obj, 0);
+    lv_arc_set_mode(obj, (lv_arc_mode_t)0);
+    lv_arc_set_range(obj, 0, 100);
+    lv_arc_set_rotation(obj, 0);
+    lv_arc_set_value(obj, 0);
+    lv_bar_set_mode(obj, (lv_bar_mode_t)0);
+    lv_bar_set_range(obj, 0, 100);
+    lv_bar_set_start_value(obj, 0, (lv_anim_enable_t)0);
+    lv_bar_set_value(obj, 0, (lv_anim_enable_t)0);
+
+    const char *btn_map[] = {""};
+    /* btnmatrix API name changed between versions */
+#if LVGL_VERSION_MAJOR >= 9
+    lv_buttonmatrix_set_map(obj, btn_map);
+#else
+    lv_btnmatrix_set_map(obj, btn_map);
+#endif
+    lv_btnmatrix_set_ctrl_map(obj, (const lv_btnmatrix_ctrl_t[]){0});
+    lv_btnmatrix_set_one_checked(obj, true);
+#if LVGL_VERSION_MAJOR >= 9
+    lv_buttonmatrix_set_ctrl_map(obj, (const lv_buttonmatrix_ctrl_t[]){0});
+    lv_buttonmatrix_set_one_checked(obj, true);
+#endif
+
+    lv_dropdown_set_dir(obj, (lv_dir_t)0);
+    lv_dropdown_set_options(obj, "");
+    lv_dropdown_set_selected(obj, 0);
+    lv_dropdown_set_symbol(obj, "");
+    (void)lv_event_get_code((lv_event_t *)0);
+    (void)lv_event_get_user_data((lv_event_t *)0);
+    lv_label_set_text(obj, "");
+    lv_label_set_long_mode(obj, (lv_label_long_mode_t)0);
+#if LVGL_VERSION_MAJOR >= 9
+    (void)lv_color_to_32(color, LV_OPA_COVER);
+#else
+    (void)lv_color_to32(color);
+#endif
+    lv_led_set_brightness(obj, 0);
+    (void)lv_led_get_brightness(obj);
+    lv_led_set_color(obj, color);
+    lv_obj_get_state(obj);
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 0, 0);
+    lv_obj_update_layout(obj);
+
+    /* qrcode: size setter exists only in LVGL 9+ */
+#if LVGL_VERSION_MAJOR >= 9
+    lv_qrcode_set_size(obj, 0);
+#endif
+
+    lv_spinbox_set_range(obj, 0, 100);
+    lv_spinbox_set_step(obj, 1);
+    lv_spinbox_set_digit_format(obj, 0, 0);
+    lv_spinbox_set_rollover(obj, true);
+    lv_spinbox_set_value(obj, 0);
+
+    /* tabview_tab_bar_size only in LVGL 9+ */
+#if LVGL_VERSION_MAJOR >= 9
+    lv_tabview_set_tab_bar_size(obj, 0);
+#endif
+
+    lv_textarea_set_one_line(obj, true);
+    lv_textarea_set_password_mode(obj, true);
+    lv_textarea_set_placeholder_text(obj, "");
+    lv_textarea_set_accepted_chars(obj, "");
+    lv_textarea_set_max_length(obj, 0);
+    lv_textarea_set_text(obj, "");
+
+    /* roller requires a mode and anim params across versions */
+    lv_roller_set_options(obj, "", (lv_roller_mode_t)0);
+    lv_roller_set_selected(obj, 0, (lv_anim_enable_t)0);
+    (void)lv_roller_get_option_cnt(obj);
+
+    lv_slider_set_mode(obj, (lv_slider_mode_t)0);
+    lv_slider_set_range(obj, 0, 100);
+    lv_slider_set_left_value(obj, 0, (lv_anim_enable_t)0);
+    lv_slider_set_value(obj, 0, (lv_anim_enable_t)0);
+    /* forward declarations for functions provided in studio_api.cpp */
+    extern uint32_t to_lvgl_color(uint32_t color);
+
+    /* getters and value-returning functions */
+    (void)lv_arc_get_max_value(obj);
+    (void)lv_arc_get_min_value(obj);
+    (void)lv_arc_get_value(obj);
+    (void)lv_bar_get_start_value(obj);
+    (void)lv_bar_get_value(obj);
+    (void)lv_dropdown_get_options(obj);
+    (void)lv_dropdown_get_selected(obj);
+#if LVGL_VERSION_MAJOR >= 9
+    (void)lv_event_get_draw_task((lv_event_t *)0);
+#endif
+    (void)lv_label_get_text(obj);
+#if LV_USE_METER
+    (void)lv_meter_add_needle_img(obj, (lv_meter_scale_t *)0, (const lv_img_dsc_t *)0, 0, 0);
+    (void)lv_meter_add_needle_line(obj, (lv_meter_scale_t *)0, 0, lv_palette_main(LV_PALETTE_BLUE), 0);
+    (void)lv_meter_add_scale_lines(obj, (lv_meter_scale_t *)0, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), false, 0);
+    (void)lv_meter_add_arc(obj, (lv_meter_scale_t *)0, 0, lv_palette_main(LV_PALETTE_BLUE), 0);
+    lv_meter_set_indicator_end_value(obj, (lv_meter_indicator_t *)0, 0);
+    lv_meter_set_indicator_start_value(obj, (lv_meter_indicator_t *)0, 0);
+    lv_meter_set_indicator_value(obj, (lv_meter_indicator_t *)0, 0);
+#endif
+    (void)lv_roller_get_options(obj);
+    (void)lv_roller_get_selected(obj);
+    (void)lv_slider_get_max_value(obj);
+    (void)lv_slider_get_min_value(obj);
+    (void)lv_slider_get_left_value(obj);
+    (void)lv_spinbox_get_step(obj);
+    (void)lv_spinbox_get_value(obj);
+    (void)lv_textarea_get_max_length(obj);
+    (void)lv_textarea_get_text(obj);
+
+    /* inline / free functions */
+    (void)lv_obj_get_parent(obj);
+    (void)to_lvgl_color(0);
+    lv_obj_add_event_cb(obj, NULL, LV_EVENT_ALL, NULL);
+    lv_obj_add_flag(obj, (lv_obj_flag_t)0);
+    lv_obj_add_state(obj, (lv_state_t)0);
+    lv_obj_clear_flag(obj, (lv_obj_flag_t)0);
+    lv_obj_clear_state(obj, (lv_state_t)0);
+    lv_obj_has_flag(obj, (lv_obj_flag_t)0);
+    lv_obj_has_state(obj, (lv_state_t)0);
+    lv_obj_remove_style(obj, NULL, (lv_style_selector_t)0);
+    lv_obj_set_scroll_dir(obj, (lv_dir_t)0);
+    lv_obj_set_scroll_snap_x(obj, (lv_scroll_snap_t)0);
+    lv_obj_set_scroll_snap_y(obj, (lv_scroll_snap_t)0);
+    lv_obj_set_scrollbar_mode(obj, (lv_scrollbar_mode_t)0);
+
+    /* other free functions with assignment */
+    (void)lv_event_get_target((lv_event_t *)0);
+    (void)lv_roller_get_selected(obj);
+    (void)lv_textarea_get_text(obj);
+
+    /* creation/getters */
+#if LVGL_VERSION_MAJOR >= 9
+    lv_buttonmatrix_create(obj);
+#else
+    lv_btnmatrix_create(obj);
+#endif
+    lv_btn_create(obj);
+#if LVGL_VERSION_MAJOR >= 9
+    lv_button_create(obj);
+#endif
+    (void)lv_animimg_create(obj);
+    (void)lv_arc_create(obj);
+    (void)lv_bar_create(obj);
+    (void)lv_calendar_create(obj);
+    (void)lv_calendar_header_arrow_create(obj);
+    lv_calendar_set_showed_date(obj, 0, 0);
+    lv_calendar_set_today_date(obj, 0, 0, 0);
+    (void)lv_canvas_create(obj);
+    (void)lv_chart_create(obj);
+    (void)lv_checkbox_create(obj);
+    lv_checkbox_set_text(obj, "");
+    /* colorwheel exists only when enabled */
+#if LV_USE_COLORWHEEL
+    (void)lv_colorwheel_create(obj
+#if LVGL_VERSION_MAJOR < 9
+                                , false
+#endif
+    );
+    lv_colorwheel_set_mode(obj, (lv_colorwheel_mode_t)0);
+    lv_colorwheel_set_mode_fixed(obj, true);
+#endif
+    (void)lv_label_create(obj);
+    (void)lv_keyboard_create(obj);
+    (void)lv_led_create(obj);
+    (void)lv_line_create(obj);
+    lv_line_set_points(obj,
+#if LVGL_VERSION_MAJOR >= 9
+                       pts_precise,
+#else
+                       pts,
+#endif
+                       2);
+    lv_line_set_y_invert(obj, true);
+    (void)lv_list_create(obj);
+#if LV_USE_LOTTIE
+    (void)lv_lottie_create(obj);
+#endif
+    (void)lv_menu_create(obj);
+#if LVGL_VERSION_MAJOR >= 9
+    (void)lv_msgbox_create(obj);
+#else
+    (void)lv_msgbox_create(obj, "", "", (const char *[]){"",""}, false);
+#endif
+#if LV_USE_METER
+    (void)lv_meter_create(obj);
+    (void)lv_meter_add_scale(obj);
+    lv_meter_set_scale_major_ticks(obj, (lv_meter_scale_t *)0, 0, 0, 0, lv_palette_main(LV_PALETTE_BLUE), 0);
+    lv_meter_set_scale_range(obj, (lv_meter_scale_t *)0, 0, 0, 0, 0);
+    lv_meter_set_scale_ticks(obj, (lv_meter_scale_t *)0, 0, 0, 0, lv_palette_main(LV_PALETTE_BLUE));
+#endif
+    (void)lv_obj_create(obj);
+    lv_obj_add_style(obj, &style, (lv_style_selector_t)0);
+    style_val = lv_obj_get_style_prop(obj, LV_PART_MAIN, (lv_style_prop_t)0);
+    (void)style_val;
+    lv_obj_set_local_style_prop(obj, (lv_style_prop_t)0, (lv_style_value_t){0}, (lv_style_selector_t)0);
+    lv_obj_set_style_bg_color(obj, color, (lv_style_selector_t)0);
+    lv_obj_set_style_border_width(obj, 0, (lv_style_selector_t)0);
+    (void)lv_spangroup_create(obj);
+    (void)lv_table_create(obj);
+#if LVGL_VERSION_MAJOR >= 9
+    (void)lv_tabview_create(obj);
+#else
+    (void)lv_tabview_create(obj, (lv_dir_t)0, 0);
+#endif
+    lv_tabview_set_act(obj, 0, (lv_anim_enable_t)0);
+#if LVGL_VERSION_MAJOR >= 9
+    lv_tabview_set_active(obj, 0, (lv_anim_enable_t)0);
+    lv_tabview_set_tab_bar_position(obj, (lv_dir_t)0);
+#endif
+    (void)lv_tileview_create(obj);
+#if LVGL_VERSION_MAJOR >= 9
+    (void)lv_win_create(obj);
+#else
+    (void)lv_win_create(obj, 0);
+#endif
+    (void)lv_dropdown_create(obj);
+    /* image* APIs are available in LVGL 9+ */
+#if LVGL_VERSION_MAJOR >= 9
+    (void)lv_image_create(obj);
+    lv_image_set_inner_align(obj, (lv_image_align_t)0);
+    lv_image_set_pivot(obj, 0, 0);
+    lv_image_set_rotation(obj, 0);
+    lv_image_set_scale(obj, 0);
+    lv_image_set_src(obj, NULL);
+    (void)lv_imagebutton_create(obj);
+    lv_imagebutton_set_src(obj, 0, NULL, NULL, NULL);
+#endif
+    (void)lv_img_create(obj);
+    lv_img_set_angle(obj, 0);
+    lv_img_set_pivot(obj, 0, 0);
+    lv_img_set_src(obj, NULL);
+    lv_img_set_zoom(obj, 0);
+#if LVGL_VERSION_MAJOR < 9
+    (void)lv_imgbtn_create(obj);
+    lv_imgbtn_set_src(obj, (lv_imgbtn_state_t)0, NULL, NULL, NULL);
+#endif
+    (void)lv_keyboard_create(obj);
+    lv_keyboard_set_mode(obj, (lv_keyboard_mode_t)0);
+    lv_keyboard_set_textarea(obj, (lv_obj_t *)0);
+    lv_obj_add_flag(obj, (lv_obj_flag_t)0);
+#if LVGL_VERSION_MAJOR >= 9
+    (void)lv_qrcode_create(obj);
+    lv_qrcode_set_dark_color(obj, color);
+    lv_qrcode_set_light_color(obj, color);
+    lv_qrcode_set_size(obj, 0);
+    lv_qrcode_update(obj, "", 0);
+#else
+    (void)lv_qrcode_create(obj, 0, color, color);
+    lv_qrcode_update(obj, "", 0);
+#endif
+    (void)lv_roller_create(obj);
+#if LVGL_VERSION_MAJOR >= 9 && LV_USE_SCALE
+    lv_scale_create(obj);
+    lv_scale_set_label_show(obj, true);
+    lv_scale_set_major_tick_every(obj, 0);
+    lv_scale_set_mode(obj, (lv_scale_mode_t)0);
+    lv_scale_set_range(obj, 0, 0);
+    lv_scale_set_total_tick_count(obj, 0);
+#endif
+    (void)lv_slider_create(obj);
+    lv_slider_set_left_value(obj, 0, (lv_anim_enable_t)0);
+    lv_slider_set_value(obj, 0, (lv_anim_enable_t)0);
+    (void)lv_spangroup_create(obj);
+    (void)lv_spinbox_create(obj);
+    lv_spinbox_set_value(obj, 0);
+    (void)lv_spinner_create(obj
+#if LVGL_VERSION_MAJOR < 9
+                              , 0, 0
+#endif
+    );
+#if LVGL_VERSION_MAJOR >= 9
+    lv_spinner_set_anim_params(obj, 0, 0);
+#endif
+    (void)lv_table_create(obj);
+    (void)lv_dropdown_get_list(obj);
+    (void)lv_tabview_add_tab(obj, "");
 }

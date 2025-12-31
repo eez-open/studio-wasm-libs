@@ -809,6 +809,7 @@
         "LV_SIZE_CONTENT": 1073741823,
         "LV_PCT_STORED_MAX": 536870910,
         "LV_PCT_POS_MAX": 268435455,
+        "LV_ALIGN_CENTER": 9,
         "dummy": 0
     }
 }
