@@ -5310,14 +5310,14 @@ var ASM_CONSTS = {
  1060030: ($0, $1, $2) => { lvglObjAddStyle($0, $1, $2); },  
  1060063: ($0, $1, $2) => { lvglObjRemoveStyle($0, $1, $2); },  
  1060099: ($0, $1) => { lvglSetColorTheme($0, UTF8ToString($1)); },  
- 1060144: () => { js_dispatch_event(handler_id, e); },  
- 1060182: ($0, $1, $2, $3, $4, $5) => { return eez_mqtt_init($0, UTF8ToString($1), UTF8ToString($2), $3, UTF8ToString($4), UTF8ToString($5)); },  
- 1060288: ($0, $1) => { return eez_mqtt_deinit($0, $1); },  
- 1060324: ($0, $1) => { return eez_mqtt_connect($0, $1); },  
- 1060361: ($0, $1) => { return eez_mqtt_disconnect($0, $1); },  
- 1060401: ($0, $1, $2) => { return eez_mqtt_subscribe($0, $1, UTF8ToString($2)); },  
- 1060458: ($0, $1, $2) => { return eez_mqtt_unsubscribe($0, $1, UTF8ToString($2)); },  
- 1060517: ($0, $1, $2, $3) => { return eez_mqtt_publish($0, $1, UTF8ToString($2), UTF8ToString($3)); }
+ 1060144: ($0, $1) => { js_dispatch_event($0, $1); },  
+ 1060175: ($0, $1, $2, $3, $4, $5) => { return eez_mqtt_init($0, UTF8ToString($1), UTF8ToString($2), $3, UTF8ToString($4), UTF8ToString($5)); },  
+ 1060281: ($0, $1) => { return eez_mqtt_deinit($0, $1); },  
+ 1060317: ($0, $1) => { return eez_mqtt_connect($0, $1); },  
+ 1060354: ($0, $1) => { return eez_mqtt_disconnect($0, $1); },  
+ 1060394: ($0, $1, $2) => { return eez_mqtt_subscribe($0, $1, UTF8ToString($2)); },  
+ 1060451: ($0, $1, $2) => { return eez_mqtt_unsubscribe($0, $1, UTF8ToString($2)); },  
+ 1060510: ($0, $1, $2, $3) => { return eez_mqtt_publish($0, $1, UTF8ToString($2), UTF8ToString($3)); }
 };
 
 // Imports from the Wasm binary.

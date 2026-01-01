@@ -621,7 +621,7 @@ EM_PORT_API(void) global_event_dispatcher(lv_event_t* e) {
     
     // Call JavaScript function with handler_id and event pointer
     EM_ASM({
-        js_dispatch_event(handler_id, e);
+        js_dispatch_event($0, $1);
     }, handler_id, e);
 }
 
