@@ -625,4 +625,9 @@ EM_PORT_API(void) global_event_dispatcher(lv_event_t* e) {
     }, handler_id, e);
 }
 
+// Add this to your WASM module
+EM_PORT_API(void *) get_global_dispatcher_ptr() {
+    return (void *)global_event_dispatcher;
+}
+
 ////////////////////////////////////////////////////////////////////////////////

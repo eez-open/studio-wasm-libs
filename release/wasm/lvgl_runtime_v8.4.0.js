@@ -5598,6 +5598,7 @@ var _v8_lv_slider_get_value = Module['_v8_lv_slider_get_value'] = makeInvalidEar
 var _v8_lv_slider_set_left_value = Module['_v8_lv_slider_set_left_value'] = makeInvalidEarlyAccess('_v8_lv_slider_set_left_value');
 var _v8_lv_slider_get_left_value = Module['_v8_lv_slider_get_left_value'] = makeInvalidEarlyAccess('_v8_lv_slider_get_left_value');
 var _global_event_dispatcher = Module['_global_event_dispatcher'] = makeInvalidEarlyAccess('_global_event_dispatcher');
+var _get_global_dispatcher_ptr = Module['_get_global_dispatcher_ptr'] = makeInvalidEarlyAccess('_get_global_dispatcher_ptr');
 var _lv_disp_get_scr_prev = Module['_lv_disp_get_scr_prev'] = makeInvalidEarlyAccess('_lv_disp_get_scr_prev');
 var _lv_obj_get_disp = Module['_lv_obj_get_disp'] = makeInvalidEarlyAccess('_lv_obj_get_disp');
 var _lv_anim_del = Module['_lv_anim_del'] = makeInvalidEarlyAccess('_lv_anim_del');
@@ -6872,6 +6873,7 @@ function assignWasmExports(wasmExports) {
   assert(typeof wasmExports['v8_lv_slider_set_left_value'] != 'undefined', 'missing Wasm export: v8_lv_slider_set_left_value');
   assert(typeof wasmExports['v8_lv_slider_get_left_value'] != 'undefined', 'missing Wasm export: v8_lv_slider_get_left_value');
   assert(typeof wasmExports['global_event_dispatcher'] != 'undefined', 'missing Wasm export: global_event_dispatcher');
+  assert(typeof wasmExports['get_global_dispatcher_ptr'] != 'undefined', 'missing Wasm export: get_global_dispatcher_ptr');
   assert(typeof wasmExports['lv_disp_get_scr_prev'] != 'undefined', 'missing Wasm export: lv_disp_get_scr_prev');
   assert(typeof wasmExports['lv_obj_get_disp'] != 'undefined', 'missing Wasm export: lv_obj_get_disp');
   assert(typeof wasmExports['lv_anim_del'] != 'undefined', 'missing Wasm export: lv_anim_del');
@@ -8143,6 +8145,7 @@ function assignWasmExports(wasmExports) {
   _v8_lv_slider_set_left_value = Module['_v8_lv_slider_set_left_value'] = createExportWrapper('v8_lv_slider_set_left_value', 3);
   _v8_lv_slider_get_left_value = Module['_v8_lv_slider_get_left_value'] = createExportWrapper('v8_lv_slider_get_left_value', 1);
   _global_event_dispatcher = Module['_global_event_dispatcher'] = createExportWrapper('global_event_dispatcher', 1);
+  _get_global_dispatcher_ptr = Module['_get_global_dispatcher_ptr'] = createExportWrapper('get_global_dispatcher_ptr', 0);
   _lv_disp_get_scr_prev = Module['_lv_disp_get_scr_prev'] = createExportWrapper('lv_disp_get_scr_prev', 1);
   _lv_obj_get_disp = Module['_lv_obj_get_disp'] = createExportWrapper('lv_obj_get_disp', 1);
   _lv_anim_del = Module['_lv_anim_del'] = createExportWrapper('lv_anim_del', 2);

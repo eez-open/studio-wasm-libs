@@ -5601,6 +5601,7 @@ var _lvglGetTabName = Module['_lvglGetTabName'] = makeInvalidEarlyAccess('_lvglG
 var _lv_tabview_get_tab_bar = Module['_lv_tabview_get_tab_bar'] = makeInvalidEarlyAccess('_lv_tabview_get_tab_bar');
 var _lv_obj_get_child_by_type = Module['_lv_obj_get_child_by_type'] = makeInvalidEarlyAccess('_lv_obj_get_child_by_type');
 var _global_event_dispatcher = Module['_global_event_dispatcher'] = makeInvalidEarlyAccess('_global_event_dispatcher');
+var _get_global_dispatcher_ptr = Module['_get_global_dispatcher_ptr'] = makeInvalidEarlyAccess('_get_global_dispatcher_ptr');
 var _lv_group_init = Module['_lv_group_init'] = makeInvalidEarlyAccess('_lv_group_init');
 var _lv_group_deinit = Module['_lv_group_deinit'] = makeInvalidEarlyAccess('_lv_group_deinit');
 var _lv_ll_init = Module['_lv_ll_init'] = makeInvalidEarlyAccess('_lv_ll_init');
@@ -7469,6 +7470,7 @@ function assignWasmExports(wasmExports) {
   assert(typeof wasmExports['lv_tabview_get_tab_bar'] != 'undefined', 'missing Wasm export: lv_tabview_get_tab_bar');
   assert(typeof wasmExports['lv_obj_get_child_by_type'] != 'undefined', 'missing Wasm export: lv_obj_get_child_by_type');
   assert(typeof wasmExports['global_event_dispatcher'] != 'undefined', 'missing Wasm export: global_event_dispatcher');
+  assert(typeof wasmExports['get_global_dispatcher_ptr'] != 'undefined', 'missing Wasm export: get_global_dispatcher_ptr');
   assert(typeof wasmExports['lv_group_init'] != 'undefined', 'missing Wasm export: lv_group_init');
   assert(typeof wasmExports['lv_group_deinit'] != 'undefined', 'missing Wasm export: lv_group_deinit');
   assert(typeof wasmExports['lv_ll_init'] != 'undefined', 'missing Wasm export: lv_ll_init');
@@ -9334,6 +9336,7 @@ function assignWasmExports(wasmExports) {
   _lv_tabview_get_tab_bar = Module['_lv_tabview_get_tab_bar'] = createExportWrapper('lv_tabview_get_tab_bar', 1);
   _lv_obj_get_child_by_type = Module['_lv_obj_get_child_by_type'] = createExportWrapper('lv_obj_get_child_by_type', 3);
   _global_event_dispatcher = Module['_global_event_dispatcher'] = createExportWrapper('global_event_dispatcher', 1);
+  _get_global_dispatcher_ptr = Module['_get_global_dispatcher_ptr'] = createExportWrapper('get_global_dispatcher_ptr', 0);
   _lv_group_init = Module['_lv_group_init'] = createExportWrapper('lv_group_init', 0);
   _lv_group_deinit = Module['_lv_group_deinit'] = createExportWrapper('lv_group_deinit', 0);
   _lv_ll_init = Module['_lv_ll_init'] = createExportWrapper('lv_ll_init', 2);
