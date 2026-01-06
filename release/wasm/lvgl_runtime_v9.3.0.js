@@ -5307,17 +5307,18 @@ var ASM_CONSTS = {
  1059871: ($0, $1) => { return getLvglGroupByName($0, UTF8ToString($1)); },  
  1059924: ($0, $1) => { return getLvglStyleByName($0, UTF8ToString($1)); },  
  1059977: ($0, $1) => { return getLvglImageByName($0, UTF8ToString($1)); },  
- 1060030: ($0, $1, $2) => { lvglObjAddStyle($0, $1, $2); },  
- 1060063: ($0, $1, $2) => { lvglObjRemoveStyle($0, $1, $2); },  
- 1060099: ($0, $1) => { lvglSetColorTheme($0, UTF8ToString($1)); },  
- 1060144: ($0, $1) => { js_dispatch_event($0, $1); },  
- 1060175: ($0, $1, $2, $3, $4, $5) => { return eez_mqtt_init($0, UTF8ToString($1), UTF8ToString($2), $3, UTF8ToString($4), UTF8ToString($5)); },  
- 1060281: ($0, $1) => { return eez_mqtt_deinit($0, $1); },  
- 1060317: ($0, $1) => { return eez_mqtt_connect($0, $1); },  
- 1060354: ($0, $1) => { return eez_mqtt_disconnect($0, $1); },  
- 1060394: ($0, $1, $2) => { return eez_mqtt_subscribe($0, $1, UTF8ToString($2)); },  
- 1060451: ($0, $1, $2) => { return eez_mqtt_unsubscribe($0, $1, UTF8ToString($2)); },  
- 1060510: ($0, $1, $2, $3) => { return eez_mqtt_publish($0, $1, UTF8ToString($2), UTF8ToString($3)); }
+ 1060030: ($0, $1) => { return getLvglObjectNameFromIndex($0, $1); },  
+ 1060077: ($0, $1, $2) => { lvglObjAddStyle($0, $1, $2); },  
+ 1060110: ($0, $1, $2) => { lvglObjRemoveStyle($0, $1, $2); },  
+ 1060146: ($0, $1) => { lvglSetColorTheme($0, UTF8ToString($1)); },  
+ 1060191: ($0, $1) => { js_dispatch_event($0, $1); },  
+ 1060222: ($0, $1, $2, $3, $4, $5) => { return eez_mqtt_init($0, UTF8ToString($1), UTF8ToString($2), $3, UTF8ToString($4), UTF8ToString($5)); },  
+ 1060328: ($0, $1) => { return eez_mqtt_deinit($0, $1); },  
+ 1060364: ($0, $1) => { return eez_mqtt_connect($0, $1); },  
+ 1060401: ($0, $1) => { return eez_mqtt_disconnect($0, $1); },  
+ 1060441: ($0, $1, $2) => { return eez_mqtt_subscribe($0, $1, UTF8ToString($2)); },  
+ 1060498: ($0, $1, $2) => { return eez_mqtt_unsubscribe($0, $1, UTF8ToString($2)); },  
+ 1060557: ($0, $1, $2, $3) => { return eez_mqtt_publish($0, $1, UTF8ToString($2), UTF8ToString($3)); }
 };
 
 // Imports from the Wasm binary.

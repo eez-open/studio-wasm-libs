@@ -762,6 +762,14 @@ static const void *getLvglImageByName(const char *name) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+static const char *getLvglObjectNameFromIndex(int32_t index) {
+    return (const char *)EM_ASM_INT({
+        return getLvglObjectNameFromIndex($0, $1);
+    }, eez::flow::g_wasmModuleId, index);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 static void lvglObjAddStyle(lv_obj_t *obj, int32_t styleIndex) {
     EM_ASM({
         lvglObjAddStyle($0, $1, $2);
@@ -836,6 +844,7 @@ extern "C" void flowInit(uint32_t wasmModuleId, uint32_t debuggerMessageSubscipt
     eez::flow::getLvglGroupByNameHook = getLvglGroupByName;
     eez::flow::getLvglStyleByNameHook = getLvglStyleByName;
     eez::flow::getLvglImageByNameHook = getLvglImageByName;
+    eez::flow::getLvglObjectNameFromIndexHook = getLvglObjectNameFromIndex;
     eez::flow::lvglObjAddStyleHook = lvglObjAddStyle;
     eez::flow::lvglObjRemoveStyleHook = lvglObjRemoveStyle;
     eez::flow::getLvglGroupFromIndexHook = getLvglGroupFromIndex;
