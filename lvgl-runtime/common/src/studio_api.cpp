@@ -3,6 +3,7 @@
 #include <emscripten.h>
 
 #include "lvgl/lvgl.h"
+#include "lvgl/lvgl.h"
 
 #include <eez/core/os.h>
 
@@ -631,3 +632,30 @@ EM_PORT_API(void *) get_global_dispatcher_ptr() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+EM_PORT_API(void *) lvglCreateFreeTypeFont(const char *filePath, int size, int style) {
+#if LVGL_VERSION_MAJOR >= 9
+    lv_font_t *font = lv_freetype_font_create(filePath, LV_FREETYPE_FONT_RENDER_MODE_BITMAP, (uint32_t)size, (lv_freetype_font_style_t)style);
+    
+    if (!font) {
+        LV_LOG_ERROR("font create failed: %s", filePath);
+        return 0;
+    }
+    
+    return font;
+#else
+    lv_ft_info_t *info = (lv_ft_info_t *)lv_mem_alloc(sizeof(lv_ft_info_t));
+
+    info->name = filePath;
+    info->weight = size;
+    info->style = style;
+    info->mem = 0;
+
+    if (!lv_ft_font_init(info)) {
+        LV_LOG_ERROR("font create failed: %s", filePath);
+        return 0;
+    }    
+
+    return info->font;
+#endif
+}
