@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && cd build && node index.js"
+    "start": "tsc && cd build && node index.js",
+    "cleanup.test": "tsc && cd build && node cleanup.test.js"
   },
   "keywords": [],
   "author": "",

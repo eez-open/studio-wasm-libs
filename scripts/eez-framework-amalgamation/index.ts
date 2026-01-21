@@ -1,6 +1,24 @@
 import fs from "fs";
 import path from "path";
 import { exec } from "child_process";
+import { cleanupSourceFile } from "./cleanup";
+
+const DEFINED = [
+    "EEZ_FOR_LVGL",
+    "EEZ_OPTION_GUI=0",
+    "OPTION_SCPI=0"
+]
+
+const NOT_DEFINED = [
+    "EEZ_PLATFORM_STM32",
+    "EEZ_PLATFORM_ESP32",
+    "EEZ_PLATFORM_PICO",
+    "EEZ_PLATFORM_RASPBERRY",
+    "EEZ_PLATFORM_SIMULATOR",
+    "EEZ_PLATFORM_SIMULATOR_WIN32",
+    "EEZ_DASHBOARD_API",
+    "EEZ_STUDIO_FLOW_RUNTIME",
+]
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -328,7 +346,7 @@ async function buildEezH(files: Map<string, string>, autogenComment: string) {
         result = result.replace(LVGL_INCLUDE2, "");
     }
 
-    return result;
+    return cleanupSourceFile(result, DEFINED, NOT_DEFINED);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -370,7 +388,7 @@ extern "C" {
         result = result.replace(LVGL_INCLUDE2, "");
     }
 
-    return result;
+    return cleanupSourceFile(result, DEFINED, NOT_DEFINED);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

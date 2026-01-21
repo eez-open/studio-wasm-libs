@@ -15,6 +15,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const child_process_1 = require("child_process");
+const cleanup_1 = require("./cleanup");
+const DEFINED = [
+    "EEZ_FOR_LVGL",
+    "EEZ_OPTION_GUI=0",
+    "OPTION_SCPI=0"
+];
+const NOT_DEFINED = [
+    "EEZ_PLATFORM_STM32",
+    "EEZ_PLATFORM_ESP32",
+    "EEZ_PLATFORM_PICO",
+    "EEZ_PLATFORM_RASPBERRY",
+    "EEZ_PLATFORM_SIMULATOR",
+    "EEZ_PLATFORM_SIMULATOR_WIN32",
+    "EEZ_DASHBOARD_API",
+    "EEZ_STUDIO_FLOW_RUNTIME",
+];
 ////////////////////////////////////////////////////////////////////////////////
 const LVGL_INCLUDE1 = `#ifdef LV_LVGL_H_INCLUDE_SIMPLE
     #include "lvgl.h"
@@ -308,7 +324,7 @@ function buildEezH(files, autogenComment) {
         while (result.indexOf(LVGL_INCLUDE2) != -1) {
             result = result.replace(LVGL_INCLUDE2, "");
         }
-        return result;
+        return (0, cleanup_1.cleanupSourceFile)(result, DEFINED, NOT_DEFINED);
     });
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -346,7 +362,7 @@ extern "C" {
         while (result.indexOf(LVGL_INCLUDE2) != -1) {
             result = result.replace(LVGL_INCLUDE2, "");
         }
-        return result;
+        return (0, cleanup_1.cleanupSourceFile)(result, DEFINED, NOT_DEFINED);
     });
 }
 ////////////////////////////////////////////////////////////////////////////////
