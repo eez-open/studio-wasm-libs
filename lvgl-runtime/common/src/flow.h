@@ -38,8 +38,8 @@ void addTimelineKeyframe(
 void setTimelinePosition(float timelinePosition);
 void clearTimeline();
 
-#define LV_EVENT_METER_TICK_LABEL_EVENT 0x74
-#define LV_EVENT_CHECKED_STATE_CHANGED 0x78
+#define LV_EVENT_METER_TICK_LABEL_EVENT 0x7C
+#define LV_EVENT_CHECKED_STATE_CHANGED 0x7D
 #define LV_EVENT_CHECKED   0x7E
 #define LV_EVENT_UNCHECKED 0x7F
 
