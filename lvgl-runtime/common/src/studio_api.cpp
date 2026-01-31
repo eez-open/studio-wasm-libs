@@ -349,36 +349,27 @@ EM_PORT_API(void) lvglFreeFont(lv_font_t *font) {
 #endif
 }
 
-EM_PORT_API(void) lvglAddObjectFlowCallback(lv_obj_t *obj, lv_event_code_t filter, void *flow_state, unsigned component_index, unsigned output_or_property_index, int32_t user_data) {
-#if LVGL_VERSION_MAJOR >= 9
-    FlowEventCallbackData *data = (FlowEventCallbackData *)lv_malloc(sizeof(FlowEventCallbackData));
-#else
-    FlowEventCallbackData *data = (FlowEventCallbackData *)lv_mem_alloc(sizeof(FlowEventCallbackData));
-#endif
+#if LVGL_VERSION_MAJOR < 9
+EM_PORT_API(void) onMeterTickLabelEventCallback(lv_event_t *e, void *flowState, unsigned componentIndex, unsigned propertyIndex) {
+    lv_obj_draw_part_dsc_t * draw_part_dsc = lv_event_get_draw_part_dsc(e);
 
-    data->flow_state = flow_state;
-    data->component_index = component_index;
-    data->output_or_property_index = output_or_property_index;
-    data->user_data = user_data;
+    // Be sure it's drawing meter related parts
+    if (draw_part_dsc->class_p != &lv_meter_class) return;
 
-    if (filter == LV_EVENT_METER_TICK_LABEL_EVENT) {
-#if LVGL_VERSION_MAJOR >= 9
-        // TODO LVGL 9.0
-#else
-        lv_obj_add_event_cb(obj, flow_event_meter_tick_label_event_callback, LV_EVENT_DRAW_PART_BEGIN, data);
-#endif
-    } else if (filter == LV_EVENT_CHECKED_STATE_CHANGED) {
-        lv_obj_add_event_cb(obj, flow_event_checked_state_changed_callback, LV_EVENT_VALUE_CHANGED, data);
-    } else if (filter == LV_EVENT_CHECKED) {
-        lv_obj_add_event_cb(obj, flow_event_checked_callback, LV_EVENT_VALUE_CHANGED, data);
-    } else if (filter == LV_EVENT_UNCHECKED) {
-        lv_obj_add_event_cb(obj, flow_event_unchecked_callback, LV_EVENT_VALUE_CHANGED, data);
-    } else {
-        lv_obj_add_event_cb(obj, flow_event_callback, filter, data);
+    // Be sure it's drawing the ticks
+    if (draw_part_dsc->type != LV_METER_DRAW_PART_TICK) return;
+
+    g_eezFlowLvlgMeterTickIndex = draw_part_dsc->id;
+    const char *temp = evalTextProperty(flowState, componentIndex, propertyIndex, "Failed to evalute scale label in Meter widget");
+    if (temp) {
+        static char label[32];
+        strncpy(label, temp, sizeof(label));
+        label[sizeof(label) - 1] = 0;
+        draw_part_dsc->text = label;
+        draw_part_dsc->text_length = sizeof(label);
     }
-
-    lv_obj_add_event_cb(obj, flow_event_callback_delete_user_data, LV_EVENT_DELETE, data);
 }
+#endif
 
 EM_PORT_API(uint32_t) lvglLedGetColor(lv_obj_t *obj) {
 #if LVGL_VERSION_MAJOR >= 9
@@ -462,22 +453,6 @@ EM_PORT_API(int32_t) lvglGetIndicator_end_value(lv_meter_indicator_t *indicator)
 #endif
 }
     
-EM_PORT_API(void) lvglUpdateCheckedState(lv_obj_t *obj, void *flow_state, unsigned component_index, unsigned property_index) {
-    addUpdateTask(UPDATE_TASK_TYPE_CHECKED_STATE, obj, flow_state, component_index, property_index, 0, 0);
-}
-
-EM_PORT_API(void) lvglUpdateDisabledState(lv_obj_t *obj, void *flow_state, unsigned component_index, unsigned property_index) {
-    addUpdateTask(UPDATE_TASK_TYPE_DISABLED_STATE, obj, flow_state, component_index, property_index, 0, 0);
-}
-
-EM_PORT_API(void) lvglUpdateHiddenFlag(lv_obj_t *obj, void *flow_state, unsigned component_index, unsigned property_index) {
-    addUpdateTask(UPDATE_TASK_TYPE_HIDDEN_FLAG, obj, flow_state, component_index, property_index, 0, 0);
-}
-
-EM_PORT_API(void) lvglUpdateClickableFlag(lv_obj_t *obj, void *flow_state, unsigned component_index, unsigned property_index) {
-    addUpdateTask(UPDATE_TASK_TYPE_CLICKABLE_FLAG, obj, flow_state, component_index, property_index, 0, 0);
-}
-
 EM_PORT_API(void) lvglAddTimelineKeyframe(
     lv_obj_t *obj,
     void *flowState,
@@ -514,22 +489,6 @@ EM_PORT_API(void) lvglSetTimelinePosition(float timelinePosition) {
 
 EM_PORT_API(void) lvglClearTimeline() {
     clearTimeline();
-}
-
-EM_PORT_API(void) lvglSetScrollBarMode(lv_obj_t *obj, lv_scrollbar_mode_t mode) {
-    lv_obj_set_scrollbar_mode(obj, mode);
-}
-
-EM_PORT_API(void) lvglSetScrollDir(lv_obj_t *obj, lv_dir_t dir) {
-    lv_obj_set_scroll_dir(obj, dir);
-}
-
-EM_PORT_API(void) lvglSetScrollSnapX(lv_obj_t *obj, lv_scroll_snap_t align) {
-    lv_obj_set_scroll_snap_x(obj, align);
-}
-
-EM_PORT_API(void) lvglSetScrollSnapY(lv_obj_t *obj, lv_scroll_snap_t align) {
-    lv_obj_set_scroll_snap_y(obj, align);
 }
 
 EM_PORT_API(void) lvglLineSetPoints(lv_obj_t *obj, float *point_values, uint32_t point_num) {

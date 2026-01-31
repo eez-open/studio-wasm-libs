@@ -38,34 +38,6 @@ void addTimelineKeyframe(
 void setTimelinePosition(float timelinePosition);
 void clearTimeline();
 
-#define LV_EVENT_METER_TICK_LABEL_EVENT 0x7C
-#define LV_EVENT_CHECKED_STATE_CHANGED 0x7D
-#define LV_EVENT_CHECKED   0x7E
-#define LV_EVENT_UNCHECKED 0x7F
-
-struct FlowEventCallbackData {
-    void *flow_state;
-    unsigned component_index;
-    unsigned output_or_property_index;
-    int32_t user_data;
-};
-
-void flow_event_callback(lv_event_t *e);
-void flow_event_checked_state_changed_callback(lv_event_t *e);
-void flow_event_checked_callback(lv_event_t *e);
-void flow_event_unchecked_callback(lv_event_t *e);
-void flow_event_meter_tick_label_event_callback(lv_event_t *e);
-void flow_event_callback_delete_user_data(lv_event_t *e);
-
-enum UpdateTaskType {
-    UPDATE_TASK_TYPE_CHECKED_STATE,
-    UPDATE_TASK_TYPE_DISABLED_STATE,
-    UPDATE_TASK_TYPE_HIDDEN_FLAG,
-    UPDATE_TASK_TYPE_CLICKABLE_FLAG
-};
-
-void addUpdateTask(enum UpdateTaskType updateTaskType, lv_obj_t *obj, void *flow_state, unsigned component_index, unsigned property_index, void *subobj, int param);
-
 #ifdef __cplusplus
 extern "C" {
 #endif

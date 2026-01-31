@@ -413,148 +413,6 @@ void clearTimeline() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-struct UpdateTask {
-    UpdateTaskType updateTaskType;
-    lv_obj_t *obj;
-    void *flow_state;
-    unsigned component_index;
-    unsigned property_index;
-    void *subobj;
-    int param;
-};
-
-static UpdateTask *g_updateTask;
-
-#if LVGL_VERSION_MAJOR >= 9
-#else
-#define lv_event_get_target_obj lv_event_get_target
-#endif
-
-void flow_event_callback(lv_event_t *e) {
-    FlowEventCallbackData *data = (FlowEventCallbackData *)e->user_data;
-    e->user_data = (void *)data->user_data;
-    flowPropagateValueLVGLEvent(data->flow_state, data->component_index, data->output_or_property_index, e);
-}
-
-void flow_event_checked_state_changed_callback(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target_obj(e);
-        if (!g_updateTask || g_updateTask->obj != ta) {
-            FlowEventCallbackData *data = (FlowEventCallbackData *)e->user_data;
-            bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
-            assignBooleanProperty(data->flow_state, data->component_index, data->output_or_property_index, value, "Failed to assign Checked state");
-        }
-    }
-}
-
-
-void flow_event_checked_callback(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    lv_obj_t *ta = lv_event_get_target_obj(e);
-    if (event == LV_EVENT_VALUE_CHANGED && lv_obj_has_state(ta, LV_STATE_CHECKED)) {
-        flow_event_callback(e);
-    }
-}
-
-void flow_event_unchecked_callback(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    lv_obj_t *ta = lv_event_get_target_obj(e);
-    if (event == LV_EVENT_VALUE_CHANGED && !lv_obj_has_state(ta, LV_STATE_CHECKED)) {
-        flow_event_callback(e);
-    }
-}
-#if LVGL_VERSION_MAJOR >= 9
-void flow_event_meter_tick_label_event_callback(lv_event_t *e) {
-    // TODO LVGL 9.0
-}
-#else
-void flow_event_meter_tick_label_event_callback(lv_event_t *e) {
-    lv_obj_draw_part_dsc_t * draw_part_dsc = lv_event_get_draw_part_dsc(e);
-
-    // Be sure it's drawing meter related parts
-    if (draw_part_dsc->class_p != &lv_meter_class) return;
-
-    // Be sure it's drawing the ticks
-    if (draw_part_dsc->type != LV_METER_DRAW_PART_TICK) return;
-
-    g_eezFlowLvlgMeterTickIndex = draw_part_dsc->id;
-    FlowEventCallbackData *data = (FlowEventCallbackData *)e->user_data;
-    const char *temp = evalTextProperty(data->flow_state, data->component_index, data->output_or_property_index, "Failed to evalute scale label in Meter widget");
-    if (temp) {
-        static char label[32];
-        strncpy(label, temp, sizeof(label));
-        label[sizeof(label) - 1] = 0;
-        draw_part_dsc->text = label;
-        draw_part_dsc->text_length = sizeof(label);
-    }
-}
-#endif
-
-void flow_event_callback_delete_user_data(lv_event_t *e) {
-#if LVGL_VERSION_MAJOR >= 9
-    lv_free(e->user_data);
-#else
-    lv_mem_free(e->user_data);
-#endif
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-std::vector<UpdateTask> updateTasks;
-
-void addUpdateTask(UpdateTaskType updateTaskType, lv_obj_t *obj, void *flow_state, unsigned component_index, unsigned property_index, void *subobj, int param) {
-    UpdateTask updateTask;
-    updateTask.updateTaskType = updateTaskType;
-    updateTask.obj = obj;
-    updateTask.flow_state = flow_state;
-    updateTask.component_index = component_index;
-    updateTask.property_index = property_index;
-    updateTask.subobj = subobj;
-    updateTask.param = param;
-    updateTasks.push_back(updateTask);
-}
-
-void doUpdateTasks() {
-    for (auto it = updateTasks.begin(); it != updateTasks.end(); it++) {
-        UpdateTask &updateTask = *it;
-        
-        g_updateTask = &updateTask;
-        if (updateTask.updateTaskType == UPDATE_TASK_TYPE_CHECKED_STATE) {
-            bool new_val = evalBooleanProperty(updateTask.flow_state, updateTask.component_index, updateTask.property_index, "Failed to evaluate Checked state");
-            bool cur_val = lv_obj_has_state(updateTask.obj, LV_STATE_CHECKED);
-            if (new_val != cur_val) {
-                if (new_val) lv_obj_add_state(updateTask.obj, LV_STATE_CHECKED);
-                else lv_obj_clear_state(updateTask.obj, LV_STATE_CHECKED);
-            }
-        } else if (updateTask.updateTaskType == UPDATE_TASK_TYPE_DISABLED_STATE) {
-            bool new_val = evalBooleanProperty(updateTask.flow_state, updateTask.component_index, updateTask.property_index, "Failed to evaluate Disabled state");
-            bool cur_val = lv_obj_has_state(updateTask.obj, LV_STATE_DISABLED);
-            if (new_val != cur_val) {
-                if (new_val) lv_obj_add_state(updateTask.obj, LV_STATE_DISABLED);
-                else lv_obj_clear_state(updateTask.obj, LV_STATE_DISABLED);
-            }
-        } else if (updateTask.updateTaskType == UPDATE_TASK_TYPE_HIDDEN_FLAG) {
-            bool new_val = evalBooleanProperty(updateTask.flow_state, updateTask.component_index, updateTask.property_index, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(updateTask.obj, LV_OBJ_FLAG_HIDDEN);
-            if (new_val != cur_val) {
-                if (new_val) lv_obj_add_flag(updateTask.obj, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(updateTask.obj, LV_OBJ_FLAG_HIDDEN);
-            }
-        } else if (updateTask.updateTaskType == UPDATE_TASK_TYPE_CLICKABLE_FLAG) {
-            bool new_val = evalBooleanProperty(updateTask.flow_state, updateTask.component_index, updateTask.property_index, "Failed to evaluate Clickable flag");
-            bool cur_val = lv_obj_has_flag(updateTask.obj, LV_OBJ_FLAG_CLICKABLE);
-            if (new_val != cur_val) {
-                if (new_val) lv_obj_add_flag(updateTask.obj, LV_OBJ_FLAG_CLICKABLE);
-                else lv_obj_clear_flag(updateTask.obj, LV_OBJ_FLAG_CLICKABLE);
-            }
-        }
-        g_updateTask = nullptr;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void startToDebuggerMessage() {
     EM_ASM({
         startToDebuggerMessage($0);
@@ -628,17 +486,6 @@ void deleteObjectIndex(int32_t index) {
     if (it != indexToObject.end()) {
         auto obj = it->second;
 
-        updateTasks.erase(
-            std::remove_if(
-                updateTasks.begin(), 
-                updateTasks.end(),
-                [obj](const UpdateTask& updateTask) { 
-                    return updateTask.obj == obj;
-                }
-            ),
-            updateTasks.end()
-        );
-
         indexToObject.erase(it);
     }
 }
@@ -657,7 +504,7 @@ static std::vector<lv_group_t *> groups;
 static std::map<lv_obj_t *, std::map<lv_group_t *, std::vector<lv_obj_t *>>> screenToGroupObjects;
 
 void screen_loaded_event_callback(lv_event_t *e) {
-    lv_obj_t *screenObj = lv_event_get_target_obj(e);
+    lv_obj_t *screenObj = (lv_obj_t *)lv_event_get_target(e);
 
     for (auto itGroups = groups.begin(); itGroups != groups.end(); itGroups++) {
         auto groupObj = *itGroups;
@@ -820,8 +667,8 @@ static void on_event_handler(lv_event_t *e) {
     }, eez::flow::g_wasmModuleId, lv_event_get_user_data(e), lv_event_get_code(e), e);
 }
 
-EM_PORT_API(void) lvglAddEventHandler(lv_obj_t *obj, lv_event_code_t eventCode) {
-    lv_obj_add_event_cb(obj, on_event_handler, eventCode, obj);
+EM_PORT_API(void) lvglAddEventHandler(lv_obj_t *obj) {
+    lv_obj_add_event_cb(obj, on_event_handler, LV_EVENT_ALL, obj);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -885,8 +732,6 @@ extern "C" bool flowTick() {
     }
 
     doAnimate();
-
-    doUpdateTasks();
 
     EM_ASM({
         lvglScreenTick($0);
