@@ -664,11 +664,15 @@ void deleteScreen(int screenIndex) {
 static void on_event_handler(lv_event_t *e) {
     EM_ASM({
         lvglOnEventHandler($0, $1, $2, $3);
-    }, eez::flow::g_wasmModuleId, lv_event_get_user_data(e), lv_event_get_code(e), e);
+    }, eez::flow::g_wasmModuleId, /*obj*/lv_event_get_user_data(e), lv_event_get_code(e), e);
 }
 
 EM_PORT_API(void) lvglAddEventHandler(lv_obj_t *obj) {
     lv_obj_add_event_cb(obj, on_event_handler, LV_EVENT_ALL, obj);
+}
+
+EM_PORT_API(void) lvglSetEventUserData(lv_event_t *event, int userData) {
+    event->user_data = (void *)userData;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

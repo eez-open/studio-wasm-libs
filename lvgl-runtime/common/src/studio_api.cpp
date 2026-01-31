@@ -85,30 +85,6 @@ EM_PORT_API(void) lvglDeletePageFlowState(int32_t screenIndex) {
     deletePageFlowState(screenIndex);
 }
 
-EM_PORT_API(void) lvglObjAddFlag(lv_obj_t *obj, lv_obj_flag_t f) {
-    lv_obj_add_flag(obj, f);
-    lv_obj_update_layout(obj);
-}
-
-EM_PORT_API(void) lvglObjClearFlag(lv_obj_t *obj, lv_obj_flag_t f) {
-    lv_obj_clear_flag(obj, f);
-    lv_obj_update_layout(obj);
-}
-
-EM_PORT_API(bool) lvglObjHasFlag(lv_obj_t *obj, lv_obj_flag_t f) {
-    return lv_obj_has_flag(obj, f);
-}
-
-EM_PORT_API(void) lvglObjAddState(lv_obj_t *obj, lv_state_t s) {
-    lv_obj_add_state(obj, s);
-    lv_obj_update_layout(obj);
-}
-
-EM_PORT_API(void) lvglObjClearState(lv_obj_t *obj, lv_state_t s) {
-    lv_obj_clear_state(obj, s);
-    lv_obj_update_layout(obj);
-}
-
 EM_PORT_API(uint32_t) lvglObjGetStylePropColor(lv_obj_t *obj, lv_part_t part, lv_state_t state, lv_style_prop_t prop) {
     lv_state_t saved_state = lv_obj_get_state(obj);
     lv_obj_clear_state(obj, saved_state);
@@ -599,21 +575,6 @@ EM_PORT_API(uint32_t) to_lvgl_color(uint32_t color) {
 #else
     return lv_color_to32(lv_color_hex(color));
 #endif
-}
-
-EM_PORT_API(void) global_event_dispatcher(lv_event_t* e) {
-    void* user_data = lv_event_get_user_data(e);
-    int handler_id = (int)(uintptr_t)user_data;
-    
-    // Call JavaScript function with handler_id and event pointer
-    EM_ASM({
-        js_dispatch_event($0, $1);
-    }, handler_id, e);
-}
-
-// Add this to your WASM module
-EM_PORT_API(void *) get_global_dispatcher_ptr() {
-    return (void *)global_event_dispatcher;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

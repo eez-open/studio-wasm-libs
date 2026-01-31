@@ -5488,14 +5488,13 @@ var ASM_CONSTS = {
  1176281: ($0, $1, $2) => { lvglObjAddStyle($0, $1, $2); },  
  1176314: ($0, $1, $2) => { lvglObjRemoveStyle($0, $1, $2); },  
  1176350: ($0, $1) => { lvglSetColorTheme($0, UTF8ToString($1)); },  
- 1176395: ($0, $1) => { js_dispatch_event($0, $1); },  
- 1176426: ($0, $1, $2, $3, $4, $5) => { return eez_mqtt_init($0, UTF8ToString($1), UTF8ToString($2), $3, UTF8ToString($4), UTF8ToString($5)); },  
- 1176532: ($0, $1) => { return eez_mqtt_deinit($0, $1); },  
- 1176568: ($0, $1) => { return eez_mqtt_connect($0, $1); },  
- 1176605: ($0, $1) => { return eez_mqtt_disconnect($0, $1); },  
- 1176645: ($0, $1, $2) => { return eez_mqtt_subscribe($0, $1, UTF8ToString($2)); },  
- 1176702: ($0, $1, $2) => { return eez_mqtt_unsubscribe($0, $1, UTF8ToString($2)); },  
- 1176761: ($0, $1, $2, $3) => { return eez_mqtt_publish($0, $1, UTF8ToString($2), UTF8ToString($3)); }
+ 1176395: ($0, $1, $2, $3, $4, $5) => { return eez_mqtt_init($0, UTF8ToString($1), UTF8ToString($2), $3, UTF8ToString($4), UTF8ToString($5)); },  
+ 1176501: ($0, $1) => { return eez_mqtt_deinit($0, $1); },  
+ 1176537: ($0, $1) => { return eez_mqtt_connect($0, $1); },  
+ 1176574: ($0, $1) => { return eez_mqtt_disconnect($0, $1); },  
+ 1176614: ($0, $1, $2) => { return eez_mqtt_subscribe($0, $1, UTF8ToString($2)); },  
+ 1176671: ($0, $1, $2) => { return eez_mqtt_unsubscribe($0, $1, UTF8ToString($2)); },  
+ 1176730: ($0, $1, $2, $3) => { return eez_mqtt_publish($0, $1, UTF8ToString($2), UTF8ToString($3)); }
 };
 
 // Imports from the Wasm binary.
@@ -5699,6 +5698,7 @@ var _lvglAddScreenLoadedEventHandler = Module['_lvglAddScreenLoadedEventHandler'
 var _lvglGroupAddObject = Module['_lvglGroupAddObject'] = makeInvalidEarlyAccess('_lvglGroupAddObject');
 var _lvglGroupRemoveObjectsForScreen = Module['_lvglGroupRemoveObjectsForScreen'] = makeInvalidEarlyAccess('_lvglGroupRemoveObjectsForScreen');
 var _lvglAddEventHandler = Module['_lvglAddEventHandler'] = makeInvalidEarlyAccess('_lvglAddEventHandler');
+var _lvglSetEventUserData = Module['_lvglSetEventUserData'] = makeInvalidEarlyAccess('_lvglSetEventUserData');
 var _lvglCreateScreen = Module['_lvglCreateScreen'] = makeInvalidEarlyAccess('_lvglCreateScreen');
 var _lvglCreateUserWidget = Module['_lvglCreateUserWidget'] = makeInvalidEarlyAccess('_lvglCreateUserWidget');
 var _lvglScreenLoad = Module['_lvglScreenLoad'] = makeInvalidEarlyAccess('_lvglScreenLoad');
@@ -5708,11 +5708,6 @@ var _lv_screen_active = Module['_lv_screen_active'] = makeInvalidEarlyAccess('_l
 var _lv_screen_load = Module['_lv_screen_load'] = makeInvalidEarlyAccess('_lv_screen_load');
 var _lvglDeleteObjectIndex = Module['_lvglDeleteObjectIndex'] = makeInvalidEarlyAccess('_lvglDeleteObjectIndex');
 var _lvglDeletePageFlowState = Module['_lvglDeletePageFlowState'] = makeInvalidEarlyAccess('_lvglDeletePageFlowState');
-var _lvglObjAddFlag = Module['_lvglObjAddFlag'] = makeInvalidEarlyAccess('_lvglObjAddFlag');
-var _lvglObjClearFlag = Module['_lvglObjClearFlag'] = makeInvalidEarlyAccess('_lvglObjClearFlag');
-var _lvglObjHasFlag = Module['_lvglObjHasFlag'] = makeInvalidEarlyAccess('_lvglObjHasFlag');
-var _lvglObjAddState = Module['_lvglObjAddState'] = makeInvalidEarlyAccess('_lvglObjAddState');
-var _lvglObjClearState = Module['_lvglObjClearState'] = makeInvalidEarlyAccess('_lvglObjClearState');
 var _lvglObjGetStylePropColor = Module['_lvglObjGetStylePropColor'] = makeInvalidEarlyAccess('_lvglObjGetStylePropColor');
 var _lvglObjGetStylePropNum = Module['_lvglObjGetStylePropNum'] = makeInvalidEarlyAccess('_lvglObjGetStylePropNum');
 var _lvglObjSetLocalStylePropColor = Module['_lvglObjSetLocalStylePropColor'] = makeInvalidEarlyAccess('_lvglObjSetLocalStylePropColor');
@@ -5768,8 +5763,6 @@ var _lvglDeleteScreenOnUnload = Module['_lvglDeleteScreenOnUnload'] = makeInvali
 var _lvglGetTabName = Module['_lvglGetTabName'] = makeInvalidEarlyAccess('_lvglGetTabName');
 var _lv_tabview_get_tab_bar = Module['_lv_tabview_get_tab_bar'] = makeInvalidEarlyAccess('_lv_tabview_get_tab_bar');
 var _lv_obj_get_child_by_type = Module['_lv_obj_get_child_by_type'] = makeInvalidEarlyAccess('_lv_obj_get_child_by_type');
-var _global_event_dispatcher = Module['_global_event_dispatcher'] = makeInvalidEarlyAccess('_global_event_dispatcher');
-var _get_global_dispatcher_ptr = Module['_get_global_dispatcher_ptr'] = makeInvalidEarlyAccess('_get_global_dispatcher_ptr');
 var _lvglCreateFreeTypeFont = Module['_lvglCreateFreeTypeFont'] = makeInvalidEarlyAccess('_lvglCreateFreeTypeFont');
 var _lv_log_add = Module['_lv_log_add'] = makeInvalidEarlyAccess('_lv_log_add');
 var _lv_group_init = Module['_lv_group_init'] = makeInvalidEarlyAccess('_lv_group_init');
@@ -7566,6 +7559,7 @@ function assignWasmExports(wasmExports) {
   assert(typeof wasmExports['lvglGroupAddObject'] != 'undefined', 'missing Wasm export: lvglGroupAddObject');
   assert(typeof wasmExports['lvglGroupRemoveObjectsForScreen'] != 'undefined', 'missing Wasm export: lvglGroupRemoveObjectsForScreen');
   assert(typeof wasmExports['lvglAddEventHandler'] != 'undefined', 'missing Wasm export: lvglAddEventHandler');
+  assert(typeof wasmExports['lvglSetEventUserData'] != 'undefined', 'missing Wasm export: lvglSetEventUserData');
   assert(typeof wasmExports['lvglCreateScreen'] != 'undefined', 'missing Wasm export: lvglCreateScreen');
   assert(typeof wasmExports['lvglCreateUserWidget'] != 'undefined', 'missing Wasm export: lvglCreateUserWidget');
   assert(typeof wasmExports['lvglScreenLoad'] != 'undefined', 'missing Wasm export: lvglScreenLoad');
@@ -7575,11 +7569,6 @@ function assignWasmExports(wasmExports) {
   assert(typeof wasmExports['lv_screen_load'] != 'undefined', 'missing Wasm export: lv_screen_load');
   assert(typeof wasmExports['lvglDeleteObjectIndex'] != 'undefined', 'missing Wasm export: lvglDeleteObjectIndex');
   assert(typeof wasmExports['lvglDeletePageFlowState'] != 'undefined', 'missing Wasm export: lvglDeletePageFlowState');
-  assert(typeof wasmExports['lvglObjAddFlag'] != 'undefined', 'missing Wasm export: lvglObjAddFlag');
-  assert(typeof wasmExports['lvglObjClearFlag'] != 'undefined', 'missing Wasm export: lvglObjClearFlag');
-  assert(typeof wasmExports['lvglObjHasFlag'] != 'undefined', 'missing Wasm export: lvglObjHasFlag');
-  assert(typeof wasmExports['lvglObjAddState'] != 'undefined', 'missing Wasm export: lvglObjAddState');
-  assert(typeof wasmExports['lvglObjClearState'] != 'undefined', 'missing Wasm export: lvglObjClearState');
   assert(typeof wasmExports['lvglObjGetStylePropColor'] != 'undefined', 'missing Wasm export: lvglObjGetStylePropColor');
   assert(typeof wasmExports['lvglObjGetStylePropNum'] != 'undefined', 'missing Wasm export: lvglObjGetStylePropNum');
   assert(typeof wasmExports['lvglObjSetLocalStylePropColor'] != 'undefined', 'missing Wasm export: lvglObjSetLocalStylePropColor');
@@ -7635,8 +7624,6 @@ function assignWasmExports(wasmExports) {
   assert(typeof wasmExports['lvglGetTabName'] != 'undefined', 'missing Wasm export: lvglGetTabName');
   assert(typeof wasmExports['lv_tabview_get_tab_bar'] != 'undefined', 'missing Wasm export: lv_tabview_get_tab_bar');
   assert(typeof wasmExports['lv_obj_get_child_by_type'] != 'undefined', 'missing Wasm export: lv_obj_get_child_by_type');
-  assert(typeof wasmExports['global_event_dispatcher'] != 'undefined', 'missing Wasm export: global_event_dispatcher');
-  assert(typeof wasmExports['get_global_dispatcher_ptr'] != 'undefined', 'missing Wasm export: get_global_dispatcher_ptr');
   assert(typeof wasmExports['lvglCreateFreeTypeFont'] != 'undefined', 'missing Wasm export: lvglCreateFreeTypeFont');
   assert(typeof wasmExports['lv_log_add'] != 'undefined', 'missing Wasm export: lv_log_add');
   assert(typeof wasmExports['lv_group_init'] != 'undefined', 'missing Wasm export: lv_group_init');
@@ -9429,6 +9416,7 @@ function assignWasmExports(wasmExports) {
   _lvglGroupAddObject = Module['_lvglGroupAddObject'] = createExportWrapper('lvglGroupAddObject', 3);
   _lvglGroupRemoveObjectsForScreen = Module['_lvglGroupRemoveObjectsForScreen'] = createExportWrapper('lvglGroupRemoveObjectsForScreen', 1);
   _lvglAddEventHandler = Module['_lvglAddEventHandler'] = createExportWrapper('lvglAddEventHandler', 1);
+  _lvglSetEventUserData = Module['_lvglSetEventUserData'] = createExportWrapper('lvglSetEventUserData', 2);
   _lvglCreateScreen = Module['_lvglCreateScreen'] = createExportWrapper('lvglCreateScreen', 6);
   _lvglCreateUserWidget = Module['_lvglCreateUserWidget'] = createExportWrapper('lvglCreateUserWidget', 6);
   _lvglScreenLoad = Module['_lvglScreenLoad'] = createExportWrapper('lvglScreenLoad', 2);
@@ -9438,11 +9426,6 @@ function assignWasmExports(wasmExports) {
   _lv_screen_load = Module['_lv_screen_load'] = createExportWrapper('lv_screen_load', 1);
   _lvglDeleteObjectIndex = Module['_lvglDeleteObjectIndex'] = createExportWrapper('lvglDeleteObjectIndex', 1);
   _lvglDeletePageFlowState = Module['_lvglDeletePageFlowState'] = createExportWrapper('lvglDeletePageFlowState', 1);
-  _lvglObjAddFlag = Module['_lvglObjAddFlag'] = createExportWrapper('lvglObjAddFlag', 2);
-  _lvglObjClearFlag = Module['_lvglObjClearFlag'] = createExportWrapper('lvglObjClearFlag', 2);
-  _lvglObjHasFlag = Module['_lvglObjHasFlag'] = createExportWrapper('lvglObjHasFlag', 2);
-  _lvglObjAddState = Module['_lvglObjAddState'] = createExportWrapper('lvglObjAddState', 2);
-  _lvglObjClearState = Module['_lvglObjClearState'] = createExportWrapper('lvglObjClearState', 2);
   _lvglObjGetStylePropColor = Module['_lvglObjGetStylePropColor'] = createExportWrapper('lvglObjGetStylePropColor', 4);
   _lvglObjGetStylePropNum = Module['_lvglObjGetStylePropNum'] = createExportWrapper('lvglObjGetStylePropNum', 4);
   _lvglObjSetLocalStylePropColor = Module['_lvglObjSetLocalStylePropColor'] = createExportWrapper('lvglObjSetLocalStylePropColor', 4);
@@ -9498,8 +9481,6 @@ function assignWasmExports(wasmExports) {
   _lvglGetTabName = Module['_lvglGetTabName'] = createExportWrapper('lvglGetTabName', 3);
   _lv_tabview_get_tab_bar = Module['_lv_tabview_get_tab_bar'] = createExportWrapper('lv_tabview_get_tab_bar', 1);
   _lv_obj_get_child_by_type = Module['_lv_obj_get_child_by_type'] = createExportWrapper('lv_obj_get_child_by_type', 3);
-  _global_event_dispatcher = Module['_global_event_dispatcher'] = createExportWrapper('global_event_dispatcher', 1);
-  _get_global_dispatcher_ptr = Module['_get_global_dispatcher_ptr'] = createExportWrapper('get_global_dispatcher_ptr', 0);
   _lvglCreateFreeTypeFont = Module['_lvglCreateFreeTypeFont'] = createExportWrapper('lvglCreateFreeTypeFont', 4);
   _lv_log_add = Module['_lv_log_add'] = createExportWrapper('lv_log_add', 6);
   _lv_group_init = Module['_lv_group_init'] = createExportWrapper('lv_group_init', 0);
