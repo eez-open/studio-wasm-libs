@@ -619,3 +619,31 @@ EM_PORT_API(void *) lvglCreateFreeTypeFont(const char *filePath, int size, int r
     return info->font;
 #endif
 }
+
+EM_PORT_API(void *) lvglCreateAnim(
+    bool setDelay, uint32_t delay, 
+    bool setRepeatDelay, uint32_t repeatDelay, 
+    bool setRepeatCount, uint32_t repeatCount
+) {
+#if LVGL_VERSION_MAJOR >= 9
+    lv_anim_t *anim = (lv_anim_t *)lv_malloc(sizeof(lv_anim_t));
+#else    
+    lv_anim_t *anim = (lv_anim_t *)lv_mem_alloc(sizeof(lv_anim_t));
+#endif
+
+    lv_anim_init(anim);
+
+    if (setDelay) {
+        lv_anim_set_delay(anim, delay);
+    }
+
+    if (setRepeatDelay) {
+        lv_anim_set_repeat_delay(anim, repeatDelay);
+    }
+
+    if (setRepeatCount) {
+        lv_anim_set_repeat_count(anim, repeatCount);
+    }
+
+    return anim;
+}
