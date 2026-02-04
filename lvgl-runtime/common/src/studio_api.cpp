@@ -647,3 +647,10 @@ EM_PORT_API(void *) lvglCreateAnim(
 
     return anim;
 }
+
+#if LVGL_VERSION_MAJOR >= 9
+#else
+EM_PORT_API(int32_t) lvglArcGetRotation(lv_obj_t *obj) {
+    return ((lv_arc_t *)obj)->rotation;
+}
+#endif
