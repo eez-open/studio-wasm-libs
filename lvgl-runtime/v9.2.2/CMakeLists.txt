@@ -18,9 +18,9 @@ include_directories(${PROJECT_SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/../common)
 include_directories(/home/mvladic/freetype-2.14.1/include)
 
-set(LV_CONF_BUILD_DISABLE_EXAMPLES 1)
-set(LV_CONF_BUILD_DISABLE_DEMOS 1)
-set(LV_CONF_BUILD_DISABLE_THORVG_INTERNAL 1)
+set(LV_CONF_BUILD_DISABLE_EXAMPLES ON CACHE BOOL "" FORCE)
+set(LV_CONF_BUILD_DISABLE_DEMOS ON CACHE BOOL "" FORCE)
+set(LV_CONF_BUILD_DISABLE_THORVG_INTERNAL ON CACHE BOOL "" FORCE)
 
 # lvgl
 add_subdirectory(lvgl)
@@ -36,7 +36,6 @@ file(GLOB_RECURSE SOURCES
     ../common/src/*.c
 )
 
-#add_executable(lvgl_runtime_v9.2.2 ${SOURCES} ../stub_api.c)
 add_executable(lvgl_runtime_v9.2.2 ${SOURCES})
 
 set(CMAKE_EXECUTABLE_SUFFIX ".html")
