@@ -27,6 +27,7 @@ add_subdirectory(lvgl)
 
 # EEZ Framework
 add_definitions(-DEEZ_FOR_LVGL)
+add_definitions(-DEEZ_FLOW_QUEUE_SIZE=10000)
 add_subdirectory(../../eez-framework [EXCLUDE_FROM_ALL])
 
 # lvgl_runtime
