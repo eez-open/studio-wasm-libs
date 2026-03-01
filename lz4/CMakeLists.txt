@@ -33,3 +33,8 @@ add_custom_command(TARGET lz4 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
     "${PROJECT_SOURCE_DIR}/build/lz4.wasm"
     "${PROJECT_SOURCE_DIR}/../release/wasm")
+
+# Include local copy commands if the file exists (not tracked by git)
+if(EXISTS "${PROJECT_SOURCE_DIR}/CMakeLists.local.cmake")
+    include("${PROJECT_SOURCE_DIR}/CMakeLists.local.cmake")
+endif()

@@ -1,0 +1,2 @@
+// This file is not tracked by git - contains local machine specific paths
+export const LOCAL_OUT_DIR = "/mnt/c/work/eez/studio/resources/eez-framework-amalgamation";

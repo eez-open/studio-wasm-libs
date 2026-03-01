@@ -1,0 +1,23 @@
+# Local copy commands - this file is not tracked by git
+
+# Copy WASM files to studio build directory
+add_custom_command(TARGET lvgl_runtime_v9.3.0 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "${PROJECT_SOURCE_DIR}/build/lvgl_runtime_v9.3.0.js"
+    "/mnt/c/work/eez/studio/build/project-editor/flow/runtime/wasm")
+
+add_custom_command(TARGET lvgl_runtime_v9.3.0 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "${PROJECT_SOURCE_DIR}/build/lvgl_runtime_v9.3.0.wasm"
+    "/mnt/c/work/eez/studio/build/project-editor/flow/runtime/wasm")
+
+# Copy WASM files to studio packages directory
+add_custom_command(TARGET lvgl_runtime_v9.3.0 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "${PROJECT_SOURCE_DIR}/build/lvgl_runtime_v9.3.0.js"
+    "/mnt/c/work/eez/studio/packages/project-editor/flow/runtime/wasm")
+
+add_custom_command(TARGET lvgl_runtime_v9.3.0 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "${PROJECT_SOURCE_DIR}/build/lvgl_runtime_v9.3.0.wasm"
+    "/mnt/c/work/eez/studio/packages/project-editor/flow/runtime/wasm")

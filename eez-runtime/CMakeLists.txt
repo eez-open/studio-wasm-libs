@@ -48,3 +48,8 @@ add_custom_command(TARGET eez_runtime POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
     "${PROJECT_SOURCE_DIR}/build/eez_runtime.wasm"
     "${PROJECT_SOURCE_DIR}/../release/wasm")
+
+# Include local copy commands if the file exists (not tracked by git)
+if(EXISTS "${PROJECT_SOURCE_DIR}/CMakeLists.local.cmake")
+    include("${PROJECT_SOURCE_DIR}/CMakeLists.local.cmake")
+endif()

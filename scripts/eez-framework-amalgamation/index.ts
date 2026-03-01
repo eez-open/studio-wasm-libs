@@ -3,6 +3,16 @@ import path from "path";
 import { exec } from "child_process";
 import { cleanupSourceFile } from "./cleanup";
 
+// Try to import local config (optional, not tracked by git)
+let LOCAL_OUT_DIR: string | undefined;
+try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const localConfig = require("./local.config.js");
+    LOCAL_OUT_DIR = localConfig.LOCAL_OUT_DIR;
+} catch {
+    // local.config.ts doesn't exist, skip local copy
+}
+
 const DEFINED = [
     "EEZ_FOR_LVGL",
     "EEZ_OPTION_GUI=0",
@@ -457,19 +467,32 @@ walk(BASE_PATH, async (err, results) => {
         recursive: true
     });
 
+    // write to LOCAL_OUT_DIR if defined
+    if (LOCAL_OUT_DIR) {
+        await fs.promises.rm(LOCAL_OUT_DIR, {
+            recursive: true,
+            force: true
+        });
+        await fs.promises.mkdir(LOCAL_OUT_DIR, {
+            recursive: true
+        });
+    }
+
     const autgenComment = await buildAutogenComment();
 
     // write eez-flow.h
-    await fs.promises.writeFile(
-        OUT_DIR + "/eez-flow.h",
-        await buildEezH(filesH, autgenComment)
-    );
+    const eezFlowH = await buildEezH(filesH, autgenComment);
+    await fs.promises.writeFile(OUT_DIR + "/eez-flow.h", eezFlowH);
+    if (LOCAL_OUT_DIR) {
+        await fs.promises.writeFile(LOCAL_OUT_DIR + "/eez-flow.h", eezFlowH);
+    }
 
     // write eez-flow.cpp
-    await fs.promises.writeFile(
-        OUT_DIR + "/eez-flow.cpp",
-        await buildEezCPP(filesCPP, autgenComment)
-    );
+    const eezFlowCpp = await buildEezCPP(filesCPP, autgenComment);
+    await fs.promises.writeFile(OUT_DIR + "/eez-flow.cpp", eezFlowCpp);
+    if (LOCAL_OUT_DIR) {
+        await fs.promises.writeFile(LOCAL_OUT_DIR + "/eez-flow.cpp", eezFlowCpp);
+    }
 
     // write eez-flow-lz4.c and eez-flow-lz4.h
     let lz4_c = await fs.promises.readFile(
@@ -483,6 +506,13 @@ walk(BASE_PATH, async (err, results) => {
         BASE_PATH + "/libs/lz4/lz4.h",
         OUT_DIR + "/eez-flow-lz4.h"
     );
+    if (LOCAL_OUT_DIR) {
+        await fs.promises.writeFile(LOCAL_OUT_DIR + "/eez-flow-lz4.c", lz4_c, "utf-8");
+        await fs.promises.cp(
+            BASE_PATH + "/libs/lz4/lz4.h",
+            LOCAL_OUT_DIR + "/eez-flow-lz4.h"
+        );
+    }
 
     // write eez-flow-sha256.c and eez-flow-sha256.h
     let sha256_c = await fs.promises.readFile(
@@ -503,4 +533,15 @@ walk(BASE_PATH, async (err, results) => {
         BASE_PATH + "/libs/sha256/sha256.h",
         OUT_DIR + "/eez-flow-sha256.h"
     );
+    if (LOCAL_OUT_DIR) {
+        await fs.promises.writeFile(
+            LOCAL_OUT_DIR + "/eez-flow-sha256.c",
+            sha256_c,
+            "utf-8"
+        );
+        await fs.promises.cp(
+            BASE_PATH + "/libs/sha256/sha256.h",
+            LOCAL_OUT_DIR + "/eez-flow-sha256.h"
+        );
+    }
 });
