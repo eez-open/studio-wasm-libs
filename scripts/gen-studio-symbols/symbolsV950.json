@@ -14,123 +14,123 @@
         },
         {
             "name": "LV_STYLE_MIN_WIDTH",
-            "code": 4
-        },
-        {
-            "name": "LV_STYLE_MAX_WIDTH",
-            "code": 5
-        },
-        {
-            "name": "LV_STYLE_MIN_HEIGHT",
-            "code": 6
-        },
-        {
-            "name": "LV_STYLE_MAX_HEIGHT",
-            "code": 7
-        },
-        {
-            "name": "LV_STYLE_X",
             "code": 8
         },
         {
-            "name": "LV_STYLE_Y",
+            "name": "LV_STYLE_MAX_WIDTH",
             "code": 9
         },
         {
-            "name": "LV_STYLE_ALIGN",
+            "name": "LV_STYLE_MIN_HEIGHT",
             "code": 10
         },
         {
-            "name": "LV_STYLE_RADIUS",
-            "code": 12
+            "name": "LV_STYLE_MAX_HEIGHT",
+            "code": 11
         },
         {
-            "name": "LV_STYLE_RADIAL_OFFSET",
-            "code": 13
-        },
-        {
-            "name": "LV_STYLE_PAD_TOP",
+            "name": "LV_STYLE_X",
             "code": 16
         },
         {
-            "name": "LV_STYLE_PAD_BOTTOM",
+            "name": "LV_STYLE_Y",
             "code": 17
         },
         {
-            "name": "LV_STYLE_PAD_LEFT",
+            "name": "LV_STYLE_ALIGN",
             "code": 18
         },
         {
-            "name": "LV_STYLE_PAD_RIGHT",
-            "code": 19
+            "name": "LV_STYLE_RADIUS",
+            "code": 120
         },
         {
-            "name": "LV_STYLE_PAD_ROW",
-            "code": 20
+            "name": "LV_STYLE_RADIAL_OFFSET",
+            "code": 14
         },
         {
-            "name": "LV_STYLE_PAD_COLUMN",
-            "code": 21
-        },
-        {
-            "name": "LV_STYLE_LAYOUT",
-            "code": 22
-        },
-        {
-            "name": "LV_STYLE_MARGIN_TOP",
+            "name": "LV_STYLE_PAD_TOP",
             "code": 24
         },
         {
-            "name": "LV_STYLE_MARGIN_BOTTOM",
+            "name": "LV_STYLE_PAD_BOTTOM",
             "code": 25
         },
         {
-            "name": "LV_STYLE_MARGIN_LEFT",
+            "name": "LV_STYLE_PAD_LEFT",
             "code": 26
         },
         {
-            "name": "LV_STYLE_MARGIN_RIGHT",
+            "name": "LV_STYLE_PAD_RIGHT",
             "code": 27
         },
         {
-            "name": "LV_STYLE_BG_COLOR",
-            "code": 28
-        },
-        {
-            "name": "LV_STYLE_BG_OPA",
+            "name": "LV_STYLE_PAD_ROW",
             "code": 29
         },
         {
-            "name": "LV_STYLE_BG_GRAD_DIR",
+            "name": "LV_STYLE_PAD_COLUMN",
+            "code": 30
+        },
+        {
+            "name": "LV_STYLE_LAYOUT",
+            "code": 132
+        },
+        {
+            "name": "LV_STYLE_MARGIN_TOP",
             "code": 32
         },
         {
-            "name": "LV_STYLE_BG_MAIN_STOP",
+            "name": "LV_STYLE_MARGIN_BOTTOM",
             "code": 33
         },
         {
-            "name": "LV_STYLE_BG_GRAD_STOP",
+            "name": "LV_STYLE_MARGIN_LEFT",
             "code": 34
         },
         {
-            "name": "LV_STYLE_BG_GRAD_COLOR",
+            "name": "LV_STYLE_MARGIN_RIGHT",
             "code": 35
         },
         {
+            "name": "LV_STYLE_BG_COLOR",
+            "code": 73
+        },
+        {
+            "name": "LV_STYLE_BG_OPA",
+            "code": 72
+        },
+        {
+            "name": "LV_STYLE_BG_GRAD_DIR",
+            "code": 41
+        },
+        {
+            "name": "LV_STYLE_BG_MAIN_STOP",
+            "code": 45
+        },
+        {
+            "name": "LV_STYLE_BG_GRAD_STOP",
+            "code": 46
+        },
+        {
+            "name": "LV_STYLE_BG_GRAD_COLOR",
+            "code": 44
+        },
+        {
             "name": "LV_STYLE_BG_MAIN_OPA",
-            "code": 36
+            "code": 42
         },
         {
             "name": "LV_STYLE_BG_GRAD_OPA",
-            "code": 37
+            "code": 43
         },
         {
             "name": "LV_STYLE_BG_GRAD",
-            "code": 38
+            "code": 40
         },
         {
             "name": "LV_STYLE_BASE_DIR",
-            "code": 39
+            "code": 129
         },
         {
             "name": "LV_STYLE_BG_DITHER_MODE",
@@ -138,143 +138,143 @@
         },
         {
             "name": "LV_STYLE_BG_IMG_SRC",
-            "code": 40,
+            "code": 48,
             "new_name": "LV_STYLE_BG_IMAGE_SRC"
         },
         {
             "name": "LV_STYLE_BG_IMG_OPA",
-            "code": 41,
+            "code": 49,
             "new_name": "LV_STYLE_BG_IMAGE_OPA"
         },
         {
             "name": "LV_STYLE_BG_IMG_RECOLOR",
-            "code": 42,
+            "code": 52,
             "new_name": "LV_STYLE_BG_IMAGE_RECOLOR"
         },
         {
             "name": "LV_STYLE_BG_IMG_RECOLOR_OPA",
-            "code": 43,
+            "code": 50,
             "new_name": "LV_STYLE_BG_IMAGE_RECOLOR_OPA"
         },
         {
             "name": "LV_STYLE_BG_IMG_TILED",
-            "code": 44,
+            "code": 51,
             "new_name": "LV_STYLE_BG_IMAGE_TILED"
         },
         {
             "name": "LV_STYLE_CLIP_CORNER",
-            "code": 45
+            "code": 128
         },
         {
             "name": "LV_STYLE_BORDER_WIDTH",
-            "code": 48
-        },
-        {
-            "name": "LV_STYLE_BORDER_COLOR",
-            "code": 49
-        },
-        {
-            "name": "LV_STYLE_BORDER_OPA",
-            "code": 50
-        },
-        {
-            "name": "LV_STYLE_BORDER_SIDE",
-            "code": 52
-        },
-        {
-            "name": "LV_STYLE_BORDER_POST",
-            "code": 53
-        },
-        {
-            "name": "LV_STYLE_OUTLINE_WIDTH",
             "code": 56
         },
         {
-            "name": "LV_STYLE_OUTLINE_COLOR",
+            "name": "LV_STYLE_BORDER_COLOR",
             "code": 57
         },
         {
-            "name": "LV_STYLE_OUTLINE_OPA",
+            "name": "LV_STYLE_BORDER_OPA",
             "code": 58
         },
         {
-            "name": "LV_STYLE_OUTLINE_PAD",
-            "code": 59
-        },
-        {
-            "name": "LV_STYLE_SHADOW_WIDTH",
+            "name": "LV_STYLE_BORDER_SIDE",
             "code": 60
         },
         {
-            "name": "LV_STYLE_SHADOW_COLOR",
-            "code": 61
+            "name": "LV_STYLE_BORDER_POST",
+            "code": 59
         },
         {
-            "name": "LV_STYLE_SHADOW_OPA",
-            "code": 62
-        },
-        {
-            "name": "LV_STYLE_SHADOW_OFS_X",
+            "name": "LV_STYLE_OUTLINE_WIDTH",
             "code": 64
         },
         {
-            "name": "LV_STYLE_SHADOW_OFS_Y",
+            "name": "LV_STYLE_OUTLINE_COLOR",
             "code": 65
         },
         {
-            "name": "LV_STYLE_SHADOW_SPREAD",
+            "name": "LV_STYLE_OUTLINE_OPA",
             "code": 66
         },
         {
+            "name": "LV_STYLE_OUTLINE_PAD",
+            "code": 67
+        },
+        {
+            "name": "LV_STYLE_SHADOW_WIDTH",
+            "code": 74
+        },
+        {
+            "name": "LV_STYLE_SHADOW_COLOR",
+            "code": 88
+        },
+        {
+            "name": "LV_STYLE_SHADOW_OPA",
+            "code": 81
+        },
+        {
+            "name": "LV_STYLE_SHADOW_OFS_X",
+            "code": 97
+        },
+        {
+            "name": "LV_STYLE_SHADOW_OFS_Y",
+            "code": 98
+        },
+        {
+            "name": "LV_STYLE_SHADOW_SPREAD",
+            "code": 99
+        },
+        {
             "name": "LV_STYLE_IMG_OPA",
-            "code": 68,
+            "code": 80,
             "new_name": "LV_STYLE_IMAGE_OPA"
         },
         {
             "name": "LV_STYLE_IMG_RECOLOR",
-            "code": 69,
+            "code": 89,
             "new_name": "LV_STYLE_IMAGE_RECOLOR"
         },
         {
             "name": "LV_STYLE_IMG_RECOLOR_OPA",
-            "code": 70,
+            "code": 78,
             "new_name": "LV_STYLE_IMAGE_RECOLOR_OPA"
         },
         {
             "name": "LV_STYLE_LINE_WIDTH",
-            "code": 72
-        },
-        {
-            "name": "LV_STYLE_LINE_DASH_WIDTH",
-            "code": 73
-        },
-        {
-            "name": "LV_STYLE_LINE_DASH_GAP",
-            "code": 74
-        },
-        {
-            "name": "LV_STYLE_LINE_ROUNDED",
             "code": 75
         },
         {
+            "name": "LV_STYLE_LINE_DASH_WIDTH",
+            "code": 100
+        },
+        {
+            "name": "LV_STYLE_LINE_DASH_GAP",
+            "code": 104
+        },
+        {
+            "name": "LV_STYLE_LINE_ROUNDED",
+            "code": 105
+        },
+        {
             "name": "LV_STYLE_LINE_COLOR",
-            "code": 76
+            "code": 90
         },
         {
             "name": "LV_STYLE_LINE_OPA",
-            "code": 77
+            "code": 82
         },
         {
             "name": "LV_STYLE_ARC_WIDTH",
-            "code": 80
+            "code": 76
         },
         {
             "name": "LV_STYLE_ARC_ROUNDED",
-            "code": 81
+            "code": 111
         },
         {
             "name": "LV_STYLE_ARC_COLOR",
-            "code": 82
+            "code": 91
         },
         {
             "name": "LV_STYLE_ARC_OPA",
@@ -282,56 +282,56 @@
         },
         {
             "name": "LV_STYLE_ARC_IMG_SRC",
-            "code": 84,
+            "code": 96,
             "new_name": "LV_STYLE_ARC_IMAGE_SRC"
         },
         {
             "name": "LV_STYLE_TEXT_COLOR",
-            "code": 88
-        },
-        {
-            "name": "LV_STYLE_TEXT_OPA",
-            "code": 89
-        },
-        {
-            "name": "LV_STYLE_TEXT_FONT",
-            "code": 90
-        },
-        {
-            "name": "LV_STYLE_TEXT_LETTER_SPACE",
-            "code": 91
-        },
-        {
-            "name": "LV_STYLE_TEXT_LINE_SPACE",
             "code": 92
         },
         {
+            "name": "LV_STYLE_TEXT_OPA",
+            "code": 84
+        },
+        {
+            "name": "LV_STYLE_TEXT_FONT",
+            "code": 77
+        },
+        {
+            "name": "LV_STYLE_TEXT_LETTER_SPACE",
+            "code": 102
+        },
+        {
+            "name": "LV_STYLE_TEXT_LINE_SPACE",
+            "code": 103
+        },
+        {
             "name": "LV_STYLE_TEXT_DECOR",
-            "code": 93
+            "code": 110
         },
         {
             "name": "LV_STYLE_TEXT_ALIGN",
-            "code": 94
-        },
-        {
-            "name": "LV_STYLE_OPA",
-            "code": 98
-        },
-        {
-            "name": "LV_STYLE_OPA_LAYERED",
-            "code": 99
-        },
-        {
-            "name": "LV_STYLE_COLOR_FILTER_DSC",
-            "code": 100
-        },
-        {
-            "name": "LV_STYLE_COLOR_FILTER_OPA",
             "code": 101
         },
         {
+            "name": "LV_STYLE_OPA",
+            "code": 112
+        },
+        {
+            "name": "LV_STYLE_OPA_LAYERED",
+            "code": 113
+        },
+        {
+            "name": "LV_STYLE_COLOR_FILTER_DSC",
+            "code": 114
+        },
+        {
+            "name": "LV_STYLE_COLOR_FILTER_OPA",
+            "code": 115
+        },
+        {
             "name": "LV_STYLE_ANIM",
-            "code": 102
+            "code": 116
         },
         {
             "name": "LV_STYLE_ANIM_TIME",
@@ -339,7 +339,7 @@
         },
         {
             "name": "LV_STYLE_ANIM_DURATION",
-            "code": 103
+            "code": 117
         },
         {
             "name": "LV_STYLE_ANIM_SPEED",
@@ -347,27 +347,27 @@
         },
         {
             "name": "LV_STYLE_TRANSITION",
-            "code": 104
+            "code": 118
         },
         {
             "name": "LV_STYLE_BLEND_MODE",
-            "code": 105
+            "code": 122
         },
         {
             "name": "LV_STYLE_TRANSFORM_WIDTH",
-            "code": 106
+            "code": 4
         },
         {
             "name": "LV_STYLE_TRANSFORM_HEIGHT",
-            "code": 107
+            "code": 5
         },
         {
             "name": "LV_STYLE_TRANSLATE_X",
-            "code": 108
+            "code": 12
         },
         {
             "name": "LV_STYLE_TRANSLATE_Y",
-            "code": 109
+            "code": 13
         },
         {
             "name": "LV_STYLE_TRANSFORM_ZOOM",
@@ -375,11 +375,11 @@
         },
         {
             "name": "LV_STYLE_TRANSFORM_SCALE_X",
-            "code": 110
+            "code": 152
         },
         {
             "name": "LV_STYLE_TRANSFORM_SCALE_Y",
-            "code": 111
+            "code": 153
         },
         {
             "name": "LV_STYLE_TRANSFORM_ANGLE",
@@ -387,83 +387,83 @@
         },
         {
             "name": "LV_STYLE_TRANSFORM_ROTATION",
-            "code": 112
+            "code": 156
         },
         {
             "name": "LV_STYLE_TRANSFORM_PIVOT_X",
-            "code": 113
+            "code": 154
         },
         {
             "name": "LV_STYLE_TRANSFORM_PIVOT_Y",
-            "code": 114
+            "code": 155
         },
         {
             "name": "LV_STYLE_TRANSFORM_SKEW_X",
-            "code": 115
+            "code": 157
         },
         {
             "name": "LV_STYLE_TRANSFORM_SKEW_Y",
-            "code": 116
+            "code": 158
         },
         {
             "name": "LV_STYLE_FLEX_FLOW",
-            "code": 122
+            "code": 160
         },
         {
             "name": "LV_STYLE_FLEX_MAIN_PLACE",
-            "code": 123
+            "code": 161
         },
         {
             "name": "LV_STYLE_FLEX_CROSS_PLACE",
-            "code": 124
+            "code": 162
         },
         {
             "name": "LV_STYLE_FLEX_TRACK_PLACE",
-            "code": 125
+            "code": 163
         },
         {
             "name": "LV_STYLE_FLEX_GROW",
-            "code": 126
+            "code": 164
         },
         {
             "name": "LV_STYLE_GRID_COLUMN_ALIGN",
-            "code": 127
+            "code": 168
         },
         {
             "name": "LV_STYLE_GRID_ROW_ALIGN",
-            "code": 128
+            "code": 169
         },
         {
             "name": "LV_STYLE_GRID_ROW_DSC_ARRAY",
-            "code": 129
+            "code": 166
         },
         {
             "name": "LV_STYLE_GRID_COLUMN_DSC_ARRAY",
-            "code": 130
+            "code": 165
         },
         {
             "name": "LV_STYLE_GRID_CELL_COLUMN_POS",
-            "code": 131
+            "code": 170
         },
         {
             "name": "LV_STYLE_GRID_CELL_COLUMN_SPAN",
-            "code": 132
+            "code": 171
         },
         {
             "name": "LV_STYLE_GRID_CELL_X_ALIGN",
-            "code": 133
+            "code": 172
         },
         {
             "name": "LV_STYLE_GRID_CELL_ROW_POS",
-            "code": 134
+            "code": 173
         },
         {
             "name": "LV_STYLE_GRID_CELL_ROW_SPAN",
-            "code": 135
+            "code": 174
         },
         {
             "name": "LV_STYLE_GRID_CELL_Y_ALIGN",
-            "code": 136
+            "code": 175
         }
     ],
     "widget_flags": {
@@ -622,14 +622,14 @@
             "description": "not clip the children's content to the parent's boundary*/"
         },
         "LV_STATE_DEFAULT": "0x0000",
-        "LV_STATE_CHECKED": "0x0001",
-        "LV_STATE_FOCUSED": "0x0002",
-        "LV_STATE_FOCUS_KEY": "0x0004",
-        "LV_STATE_EDITED": "0x0008",
-        "LV_STATE_HOVERED": "0x0010",
-        "LV_STATE_PRESSED": "0x0020",
-        "LV_STATE_SCROLLED": "0x0040",
-        "LV_STATE_DISABLED": "0x0080",
+        "LV_STATE_CHECKED": "0x0004",
+        "LV_STATE_FOCUSED": "0x0008",
+        "LV_STATE_FOCUS_KEY": "0x0010",
+        "LV_STATE_EDITED": "0x0020",
+        "LV_STATE_HOVERED": "0x0040",
+        "LV_STATE_PRESSED": "0x0080",
+        "LV_STATE_SCROLLED": "0x0100",
+        "LV_STATE_DISABLED": "0x0200",
         "LV_STATE_USER_1": "0x1000",
         "LV_STATE_USER_2": "0x2000",
         "LV_STATE_USER_3": "0x4000",
@@ -687,32 +687,32 @@
         "LV_EVENT_REFRESH": 37,
         "LV_EVENT_READY": 38,
         "LV_EVENT_CANCEL": 39,
-        "LV_EVENT_CREATE": 40,
-        "LV_EVENT_DELETE": 41,
-        "LV_EVENT_CHILD_CHANGED": 42,
-        "LV_EVENT_CHILD_CREATED": 43,
-        "LV_EVENT_CHILD_DELETED": 44,
-        "LV_EVENT_SCREEN_UNLOAD_START": 45,
-        "LV_EVENT_SCREEN_LOAD_START": 46,
-        "LV_EVENT_SCREEN_LOADED": 47,
-        "LV_EVENT_SCREEN_UNLOADED": 48,
-        "LV_EVENT_SIZE_CHANGED": 49,
-        "LV_EVENT_STYLE_CHANGED": 50,
-        "LV_EVENT_LAYOUT_CHANGED": 51,
-        "LV_EVENT_GET_SELF_SIZE": 52,
-        "LV_EVENT_INVALIDATE_AREA": 53,
-        "LV_EVENT_RESOLUTION_CHANGED": 54,
-        "LV_EVENT_COLOR_FORMAT_CHANGED": 55,
-        "LV_EVENT_REFR_REQUEST": 56,
-        "LV_EVENT_REFR_START": 57,
-        "LV_EVENT_REFR_READY": 58,
-        "LV_EVENT_RENDER_START": 59,
-        "LV_EVENT_RENDER_READY": 60,
-        "LV_EVENT_FLUSH_START": 61,
-        "LV_EVENT_FLUSH_FINISH": 62,
-        "LV_EVENT_FLUSH_WAIT_START": 63,
-        "LV_EVENT_FLUSH_WAIT_FINISH": 64,
-        "LV_EVENT_VSYNC": 65,
+        "LV_EVENT_CREATE": 41,
+        "LV_EVENT_DELETE": 42,
+        "LV_EVENT_CHILD_CHANGED": 43,
+        "LV_EVENT_CHILD_CREATED": 44,
+        "LV_EVENT_CHILD_DELETED": 45,
+        "LV_EVENT_SCREEN_UNLOAD_START": 46,
+        "LV_EVENT_SCREEN_LOAD_START": 47,
+        "LV_EVENT_SCREEN_LOADED": 48,
+        "LV_EVENT_SCREEN_UNLOADED": 49,
+        "LV_EVENT_SIZE_CHANGED": 50,
+        "LV_EVENT_STYLE_CHANGED": 51,
+        "LV_EVENT_LAYOUT_CHANGED": 52,
+        "LV_EVENT_GET_SELF_SIZE": 53,
+        "LV_EVENT_INVALIDATE_AREA": 54,
+        "LV_EVENT_RESOLUTION_CHANGED": 55,
+        "LV_EVENT_COLOR_FORMAT_CHANGED": 56,
+        "LV_EVENT_REFR_REQUEST": 57,
+        "LV_EVENT_REFR_START": 58,
+        "LV_EVENT_REFR_READY": 59,
+        "LV_EVENT_RENDER_START": 60,
+        "LV_EVENT_RENDER_READY": 61,
+        "LV_EVENT_FLUSH_START": 62,
+        "LV_EVENT_FLUSH_FINISH": 63,
+        "LV_EVENT_FLUSH_WAIT_START": 64,
+        "LV_EVENT_FLUSH_WAIT_FINISH": 65,
+        "LV_EVENT_VSYNC": 67,
         "LV_IMG_CF_RAW": 1,
         "LV_IMG_CF_RAW_ALPHA": 2,
         "LV_IMG_CF_RAW_CHROMA": null,
@@ -779,7 +779,7 @@
         "LV_IMAGE_ALIGN_LEFT_MID": 7,
         "LV_IMAGE_ALIGN_RIGHT_MID": 8,
         "LV_IMAGE_ALIGN_CENTER": 9,
-        "LV_IMAGE_ALIGN_AUTO_TRANSFORM": 10,
+        "_LV_IMAGE_ALIGN_AUTO_TRANSFORM": 10,
         "LV_IMAGE_ALIGN_STRETCH": 11,
         "LV_IMAGE_ALIGN_TILE": 12,
         "LV_SCR_LOAD_ANIM_NONE": 0,

@@ -3,6 +3,7 @@ const lvgl_runtime_v840 = require('../../release/wasm/lvgl_runtime_v8.4.0.js');
 const lvgl_runtime_v922 = require('../../release/wasm/lvgl_runtime_v9.2.2.js');
 const lvgl_runtime_v930 = require('../../release/wasm/lvgl_runtime_v9.3.0.js');
 const lvgl_runtime_v940 = require('../../release/wasm/lvgl_runtime_v9.4.0.js');
+const lvgl_runtime_v950 = require('../../release/wasm/lvgl_runtime_v9.5.0.js');
 
 const versions = [
     {
@@ -24,8 +25,12 @@ const versions = [
         name: "V940",
         version: "9.4.0",
         lvgl_runtime: lvgl_runtime_v940
+    },
+    {
+        name: "V950",
+        version: "9.5.0",
+        lvgl_runtime: lvgl_runtime_v950
     }
-
 ];
 
 function UTF8ToString(wasm, ptr) {

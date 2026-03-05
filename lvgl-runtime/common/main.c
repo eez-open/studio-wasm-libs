@@ -651,6 +651,11 @@ void dump_custom_styles() {
     style_append("LV_STYLE_ALIGN", LV_STYLE_ALIGN); // "8.3": 9, "9.0": 10 },
 
     style_append("LV_STYLE_RADIUS", LV_STYLE_RADIUS); // "8.3": 11, "9.0": 12 },
+#if LVGL_VERSION_MAJOR >= 9 && LVGL_VERSION_MINOR >= 3
+    style_append("LV_STYLE_RADIAL_OFFSET", LV_STYLE_RADIAL_OFFSET);
+#else
+    style_append_undefined("LV_STYLE_RADIAL_OFFSET");
+#endif
 
     /*Group 1*/
     style_append("LV_STYLE_PAD_TOP", LV_STYLE_PAD_TOP); // "8.3": 16, "9.0": 16 },
@@ -1326,6 +1331,30 @@ void dump_constants() {
 #endif
 
     dump_constant("LV_ALIGN_CENTER", LV_ALIGN_CENTER);
+
+#if LVGL_VERSION_MAJOR >= 9    
+    dump_constant_undefined("LV_IMG_SIZE_MODE_VIRTUAL");
+    dump_constant_undefined("LV_IMG_SIZE_MODE_REAL");
+#else
+    dump_constant("LV_IMG_SIZE_MODE_VIRTUAL", LV_IMG_SIZE_MODE_VIRTUAL);
+    dump_constant("LV_IMG_SIZE_MODE_REAL", LV_IMG_SIZE_MODE_REAL);
+#endif
+
+    dump_constant("LV_TEXT_DECOR_NONE", LV_TEXT_DECOR_NONE);
+    dump_constant("LV_TEXT_DECOR_UNDERLINE", LV_TEXT_DECOR_UNDERLINE);
+    dump_constant("LV_TEXT_DECOR_STRIKETHROUGH", LV_TEXT_DECOR_STRIKETHROUGH);
+
+    dump_constant("LV_SPAN_MODE_FIXED", LV_SPAN_MODE_FIXED);
+    dump_constant("LV_SPAN_MODE_EXPAND", LV_SPAN_MODE_EXPAND);
+    dump_constant("LV_SPAN_MODE_BREAK", LV_SPAN_MODE_BREAK);
+
+    dump_constant("LV_SPAN_OVERFLOW_CLIP", LV_SPAN_OVERFLOW_CLIP);
+    dump_constant("LV_SPAN_OVERFLOW_ELLIPSIS", LV_SPAN_OVERFLOW_ELLIPSIS);
+
+    dump_constant("LV_TEXT_ALIGN_AUTO", LV_TEXT_ALIGN_AUTO);
+    dump_constant("LV_TEXT_ALIGN_LEFT", LV_TEXT_ALIGN_LEFT);
+    dump_constant("LV_TEXT_ALIGN_CENTER", LV_TEXT_ALIGN_CENTER);
+    dump_constant("LV_TEXT_ALIGN_RIGHT", LV_TEXT_ALIGN_RIGHT);
 
     dump_constant_last("dummy", 0);
 }

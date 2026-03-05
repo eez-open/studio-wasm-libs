@@ -45,6 +45,10 @@
             "code": 11
         },
         {
+            "name": "LV_STYLE_RADIAL_OFFSET",
+            "code": null
+        },
+        {
             "name": "LV_STYLE_PAD_TOP",
             "code": 16
         },
@@ -803,6 +807,20 @@
         "LV_PCT_STORED_MAX": null,
         "LV_PCT_POS_MAX": null,
         "LV_ALIGN_CENTER": 9,
+        "LV_IMG_SIZE_MODE_VIRTUAL": 0,
+        "LV_IMG_SIZE_MODE_REAL": 1,
+        "LV_TEXT_DECOR_NONE": 0,
+        "LV_TEXT_DECOR_UNDERLINE": 1,
+        "LV_TEXT_DECOR_STRIKETHROUGH": 2,
+        "LV_SPAN_MODE_FIXED": 0,
+        "LV_SPAN_MODE_EXPAND": 1,
+        "LV_SPAN_MODE_BREAK": 2,
+        "LV_SPAN_OVERFLOW_CLIP": 0,
+        "LV_SPAN_OVERFLOW_ELLIPSIS": 1,
+        "LV_TEXT_ALIGN_AUTO": 0,
+        "LV_TEXT_ALIGN_LEFT": 1,
+        "LV_TEXT_ALIGN_CENTER": 2,
+        "LV_TEXT_ALIGN_RIGHT": 3,
         "dummy": 0
     }
 }

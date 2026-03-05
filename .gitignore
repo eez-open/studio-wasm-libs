@@ -4,6 +4,7 @@ lvgl-runtime/v8.4.0/build
 lvgl-runtime/v9.2.2/build
 lvgl-runtime/v9.3.0/build
 lvgl-runtime/v9.4.0/build
+lvgl-runtime/v9.5.0/build
 eez-framework-amalgamation/node_modules
 node_modules
 eez-gui-lite-runtime/build

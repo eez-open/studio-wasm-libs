@@ -520,7 +520,7 @@ EM_PORT_API(lv_coord_t) lvglGetScrollY(lv_obj_t *obj) {
 }
 
 EM_PORT_API(void) lvglObjInvalidate(lv_obj_t *obj) {
-    return lv_obj_invalidate(obj);
+    lv_obj_invalidate(obj);
 }
 
 EM_PORT_API(void) lvglDeleteScreenOnUnload(unsigned screenIndex) {
@@ -652,5 +652,12 @@ EM_PORT_API(void *) lvglCreateAnim(
 #else
 EM_PORT_API(int32_t) lvglArcGetRotation(lv_obj_t *obj) {
     return ((lv_arc_t *)obj)->rotation;
+}
+#endif
+
+#if LVGL_VERSION_MAJOR >= 9
+#else
+EM_PORT_API(lv_style_t *) lvglSpanGetStyle(lv_span_t *obj) {
+    return &(obj->style);
 }
 #endif
