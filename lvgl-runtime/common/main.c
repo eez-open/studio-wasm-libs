@@ -665,6 +665,13 @@ void dump_custom_styles() {
 
     style_append("LV_STYLE_PAD_ROW", LV_STYLE_PAD_ROW); // "8.3": 20, "9.0": 20 },
     style_append("LV_STYLE_PAD_COLUMN", LV_STYLE_PAD_COLUMN); // "8.3": 21, "9.0": 21 },
+
+#if LVGL_VERSION_MAJOR >= 9 && LVGL_VERSION_MINOR >= 3
+    style_append("LV_STYLE_PAD_RADIAL", LV_STYLE_PAD_RADIAL);
+#else
+    style_append_undefined("LV_STYLE_PAD_RADIAL");
+#endif
+
     style_append("LV_STYLE_LAYOUT", LV_STYLE_LAYOUT); // "8.3": 10, "9.0": 22 },
 
 #if LVGL_VERSION_MAJOR >= 9

@@ -73,6 +73,10 @@
             "code": 30
         },
         {
+            "name": "LV_STYLE_PAD_RADIAL",
+            "code": 28
+        },
+        {
             "name": "LV_STYLE_LAYOUT",
             "code": 132
         },
