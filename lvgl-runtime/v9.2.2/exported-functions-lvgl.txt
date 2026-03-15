@@ -1245,6 +1245,7 @@ _lv_calendar_get_pressed_date
 _lv_calendar_header_arrow_create
 _lv_calendar_header_dropdown_create
 _lv_calendar_header_dropdown_set_year_list
+_lv_calendar_set_chinese_mode
 _lv_canvas_create
 _lv_canvas_set_buffer
 _lv_canvas_set_draw_buf

@@ -5470,31 +5470,31 @@ function checkIncomingModuleAPI() {
   ignoredModuleProp('fetchSettings');
 }
 var ASM_CONSTS = {
-  1182736: ($0) => { startToDebuggerMessage($0); },  
- 1182768: ($0, $1, $2) => { writeDebuggerBuffer($0, new Uint8Array(Module.HEAPU8.buffer, $1, $2)); },  
- 1182843: ($0, $1, $2) => { writeDebuggerBuffer($0, new Uint8Array(Module.HEAPU8.buffer, $1, $2)); },  
- 1182918: ($0) => { finishToDebuggerMessage($0); },  
- 1182951: ($0, $1) => { lvglCreateScreen($0, $1); },  
- 1182981: ($0, $1) => { lvglDeleteScreen($0, $1); },  
- 1183011: ($0) => { lvglScreenTick($0); },  
- 1183035: ($0, $1, $2, $3) => { lvglOnEventHandler($0, $1, $2, $3); },  
- 1183075: ($0, $1) => { return getLvglScreenByName($0, UTF8ToString($1)); },  
- 1183129: ($0, $1) => { return getLvglObjectByName($0, UTF8ToString($1)); },  
- 1183183: ($0, $1) => { return getLvglGroupByName($0, UTF8ToString($1)); },  
- 1183236: ($0, $1) => { return getLvglStyleByName($0, UTF8ToString($1)); },  
- 1183289: ($0, $1) => { return getLvglImageByName($0, UTF8ToString($1)); },  
- 1183342: ($0, $1) => { return getLvglFontByName($0, UTF8ToString($1)); },  
- 1183394: ($0, $1) => { return getLvglObjectNameFromIndex($0, $1); },  
- 1183441: ($0, $1, $2) => { lvglObjAddStyle($0, $1, $2); },  
- 1183474: ($0, $1, $2) => { lvglObjRemoveStyle($0, $1, $2); },  
- 1183510: ($0, $1) => { lvglSetColorTheme($0, UTF8ToString($1)); },  
- 1183555: ($0, $1, $2, $3, $4, $5) => { return eez_mqtt_init($0, UTF8ToString($1), UTF8ToString($2), $3, UTF8ToString($4), UTF8ToString($5)); },  
- 1183661: ($0, $1) => { return eez_mqtt_deinit($0, $1); },  
- 1183697: ($0, $1) => { return eez_mqtt_connect($0, $1); },  
- 1183734: ($0, $1) => { return eez_mqtt_disconnect($0, $1); },  
- 1183774: ($0, $1, $2) => { return eez_mqtt_subscribe($0, $1, UTF8ToString($2)); },  
- 1183831: ($0, $1, $2) => { return eez_mqtt_unsubscribe($0, $1, UTF8ToString($2)); },  
- 1183890: ($0, $1, $2, $3) => { return eez_mqtt_publish($0, $1, UTF8ToString($2), UTF8ToString($3)); }
+  1184704: ($0) => { startToDebuggerMessage($0); },  
+ 1184736: ($0, $1, $2) => { writeDebuggerBuffer($0, new Uint8Array(Module.HEAPU8.buffer, $1, $2)); },  
+ 1184811: ($0, $1, $2) => { writeDebuggerBuffer($0, new Uint8Array(Module.HEAPU8.buffer, $1, $2)); },  
+ 1184886: ($0) => { finishToDebuggerMessage($0); },  
+ 1184919: ($0, $1) => { lvglCreateScreen($0, $1); },  
+ 1184949: ($0, $1) => { lvglDeleteScreen($0, $1); },  
+ 1184979: ($0) => { lvglScreenTick($0); },  
+ 1185003: ($0, $1, $2, $3) => { lvglOnEventHandler($0, $1, $2, $3); },  
+ 1185043: ($0, $1) => { return getLvglScreenByName($0, UTF8ToString($1)); },  
+ 1185097: ($0, $1) => { return getLvglObjectByName($0, UTF8ToString($1)); },  
+ 1185151: ($0, $1) => { return getLvglGroupByName($0, UTF8ToString($1)); },  
+ 1185204: ($0, $1) => { return getLvglStyleByName($0, UTF8ToString($1)); },  
+ 1185257: ($0, $1) => { return getLvglImageByName($0, UTF8ToString($1)); },  
+ 1185310: ($0, $1) => { return getLvglFontByName($0, UTF8ToString($1)); },  
+ 1185362: ($0, $1) => { return getLvglObjectNameFromIndex($0, $1); },  
+ 1185409: ($0, $1, $2) => { lvglObjAddStyle($0, $1, $2); },  
+ 1185442: ($0, $1, $2) => { lvglObjRemoveStyle($0, $1, $2); },  
+ 1185478: ($0, $1) => { lvglSetColorTheme($0, UTF8ToString($1)); },  
+ 1185523: ($0, $1, $2, $3, $4, $5) => { return eez_mqtt_init($0, UTF8ToString($1), UTF8ToString($2), $3, UTF8ToString($4), UTF8ToString($5)); },  
+ 1185629: ($0, $1) => { return eez_mqtt_deinit($0, $1); },  
+ 1185665: ($0, $1) => { return eez_mqtt_connect($0, $1); },  
+ 1185702: ($0, $1) => { return eez_mqtt_disconnect($0, $1); },  
+ 1185742: ($0, $1, $2) => { return eez_mqtt_subscribe($0, $1, UTF8ToString($2)); },  
+ 1185799: ($0, $1, $2) => { return eez_mqtt_unsubscribe($0, $1, UTF8ToString($2)); },  
+ 1185858: ($0, $1, $2, $3) => { return eez_mqtt_publish($0, $1, UTF8ToString($2), UTF8ToString($3)); }
 };
 
 // Imports from the Wasm binary.
@@ -6917,6 +6917,7 @@ var _lv_calendar_get_showed_date = Module['_lv_calendar_get_showed_date'] = make
 var _lv_calendar_get_highlighted_dates = Module['_lv_calendar_get_highlighted_dates'] = makeInvalidEarlyAccess('_lv_calendar_get_highlighted_dates');
 var _lv_calendar_get_highlighted_dates_num = Module['_lv_calendar_get_highlighted_dates_num'] = makeInvalidEarlyAccess('_lv_calendar_get_highlighted_dates_num');
 var _lv_calendar_get_pressed_date = Module['_lv_calendar_get_pressed_date'] = makeInvalidEarlyAccess('_lv_calendar_get_pressed_date');
+var _lv_calendar_set_chinese_mode = Module['_lv_calendar_set_chinese_mode'] = makeInvalidEarlyAccess('_lv_calendar_set_chinese_mode');
 var _lv_label_set_text_fmt = Module['_lv_label_set_text_fmt'] = makeInvalidEarlyAccess('_lv_label_set_text_fmt');
 var _lv_calendar_header_dropdown_create = Module['_lv_calendar_header_dropdown_create'] = makeInvalidEarlyAccess('_lv_calendar_header_dropdown_create');
 var _lv_calendar_header_dropdown_set_year_list = Module['_lv_calendar_header_dropdown_set_year_list'] = makeInvalidEarlyAccess('_lv_calendar_header_dropdown_set_year_list');
@@ -8618,6 +8619,7 @@ function assignWasmExports(wasmExports) {
   assert(typeof wasmExports['lv_calendar_get_highlighted_dates'] != 'undefined', 'missing Wasm export: lv_calendar_get_highlighted_dates');
   assert(typeof wasmExports['lv_calendar_get_highlighted_dates_num'] != 'undefined', 'missing Wasm export: lv_calendar_get_highlighted_dates_num');
   assert(typeof wasmExports['lv_calendar_get_pressed_date'] != 'undefined', 'missing Wasm export: lv_calendar_get_pressed_date');
+  assert(typeof wasmExports['lv_calendar_set_chinese_mode'] != 'undefined', 'missing Wasm export: lv_calendar_set_chinese_mode');
   assert(typeof wasmExports['lv_label_set_text_fmt'] != 'undefined', 'missing Wasm export: lv_label_set_text_fmt');
   assert(typeof wasmExports['lv_calendar_header_dropdown_create'] != 'undefined', 'missing Wasm export: lv_calendar_header_dropdown_create');
   assert(typeof wasmExports['lv_calendar_header_dropdown_set_year_list'] != 'undefined', 'missing Wasm export: lv_calendar_header_dropdown_set_year_list');
@@ -10315,6 +10317,7 @@ function assignWasmExports(wasmExports) {
   _lv_calendar_get_highlighted_dates = Module['_lv_calendar_get_highlighted_dates'] = createExportWrapper('lv_calendar_get_highlighted_dates', 1);
   _lv_calendar_get_highlighted_dates_num = Module['_lv_calendar_get_highlighted_dates_num'] = createExportWrapper('lv_calendar_get_highlighted_dates_num', 1);
   _lv_calendar_get_pressed_date = Module['_lv_calendar_get_pressed_date'] = createExportWrapper('lv_calendar_get_pressed_date', 2);
+  _lv_calendar_set_chinese_mode = Module['_lv_calendar_set_chinese_mode'] = createExportWrapper('lv_calendar_set_chinese_mode', 2);
   _lv_label_set_text_fmt = Module['_lv_label_set_text_fmt'] = createExportWrapper('lv_label_set_text_fmt', 3);
   _lv_calendar_header_dropdown_create = Module['_lv_calendar_header_dropdown_create'] = createExportWrapper('lv_calendar_header_dropdown_create', 1);
   _lv_calendar_header_dropdown_set_year_list = Module['_lv_calendar_header_dropdown_set_year_list'] = createExportWrapper('lv_calendar_header_dropdown_set_year_list', 2);
