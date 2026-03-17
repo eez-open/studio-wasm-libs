@@ -58,6 +58,7 @@ typedef struct {
 typedef struct {
 	uint8_t ascent;
 	uint8_t descent;
+    uint8_t bpp; // bits per pixel: 1, 2, 4 and 8
 	uint32_t encodingStart;
 	uint32_t encodingEnd;
     const eezgui_glyphs_group_t *groups;

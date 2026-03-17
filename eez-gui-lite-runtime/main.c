@@ -356,6 +356,7 @@ EM_PORT_API(int) offsetofGroupLength(void) { return offsetof(eezgui_glyphs_group
 // eezgui_font_data_t offsets
 EM_PORT_API(int) offsetofFontAscent(void) { return offsetof(eezgui_font_data_t, ascent); }
 EM_PORT_API(int) offsetofFontDescent(void) { return offsetof(eezgui_font_data_t, descent); }
+EM_PORT_API(int) offsetofFontBpp(void) { return offsetof(eezgui_font_data_t, bpp); }
 EM_PORT_API(int) offsetofFontEncodingStart(void) { return offsetof(eezgui_font_data_t, encodingStart); }
 EM_PORT_API(int) offsetofFontEncodingEnd(void) { return offsetof(eezgui_font_data_t, encodingEnd); }
 EM_PORT_API(int) offsetofFontGroups(void) { return offsetof(eezgui_font_data_t, groups); }

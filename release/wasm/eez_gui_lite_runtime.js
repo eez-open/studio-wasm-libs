@@ -1815,6 +1815,7 @@ var _offsetofGroupGlyphIndex = Module['_offsetofGroupGlyphIndex'] = makeInvalidE
 var _offsetofGroupLength = Module['_offsetofGroupLength'] = makeInvalidEarlyAccess('_offsetofGroupLength');
 var _offsetofFontAscent = Module['_offsetofFontAscent'] = makeInvalidEarlyAccess('_offsetofFontAscent');
 var _offsetofFontDescent = Module['_offsetofFontDescent'] = makeInvalidEarlyAccess('_offsetofFontDescent');
+var _offsetofFontBpp = Module['_offsetofFontBpp'] = makeInvalidEarlyAccess('_offsetofFontBpp');
 var _offsetofFontEncodingStart = Module['_offsetofFontEncodingStart'] = makeInvalidEarlyAccess('_offsetofFontEncodingStart');
 var _offsetofFontEncodingEnd = Module['_offsetofFontEncodingEnd'] = makeInvalidEarlyAccess('_offsetofFontEncodingEnd');
 var _offsetofFontGroups = Module['_offsetofFontGroups'] = makeInvalidEarlyAccess('_offsetofFontGroups');
@@ -1946,6 +1947,7 @@ function assignWasmExports(wasmExports) {
   assert(typeof wasmExports['offsetofGroupLength'] != 'undefined', 'missing Wasm export: offsetofGroupLength');
   assert(typeof wasmExports['offsetofFontAscent'] != 'undefined', 'missing Wasm export: offsetofFontAscent');
   assert(typeof wasmExports['offsetofFontDescent'] != 'undefined', 'missing Wasm export: offsetofFontDescent');
+  assert(typeof wasmExports['offsetofFontBpp'] != 'undefined', 'missing Wasm export: offsetofFontBpp');
   assert(typeof wasmExports['offsetofFontEncodingStart'] != 'undefined', 'missing Wasm export: offsetofFontEncodingStart');
   assert(typeof wasmExports['offsetofFontEncodingEnd'] != 'undefined', 'missing Wasm export: offsetofFontEncodingEnd');
   assert(typeof wasmExports['offsetofFontGroups'] != 'undefined', 'missing Wasm export: offsetofFontGroups');
@@ -2074,6 +2076,7 @@ function assignWasmExports(wasmExports) {
   _offsetofGroupLength = Module['_offsetofGroupLength'] = createExportWrapper('offsetofGroupLength', 0);
   _offsetofFontAscent = Module['_offsetofFontAscent'] = createExportWrapper('offsetofFontAscent', 0);
   _offsetofFontDescent = Module['_offsetofFontDescent'] = createExportWrapper('offsetofFontDescent', 0);
+  _offsetofFontBpp = Module['_offsetofFontBpp'] = createExportWrapper('offsetofFontBpp', 0);
   _offsetofFontEncodingStart = Module['_offsetofFontEncodingStart'] = createExportWrapper('offsetofFontEncodingStart', 0);
   _offsetofFontEncodingEnd = Module['_offsetofFontEncodingEnd'] = createExportWrapper('offsetofFontEncodingEnd', 0);
   _offsetofFontGroups = Module['_offsetofFontGroups'] = createExportWrapper('offsetofFontGroups', 0);

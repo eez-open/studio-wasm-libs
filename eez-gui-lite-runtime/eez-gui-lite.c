@@ -27,7 +27,7 @@ static bool display_box_start(uint16_t x, uint16_t y, uint16_t w, uint16_t h);
 static void display_box_end(void);
 static void display_fill_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, eezgui_color_t color);
 static void display_draw_image(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const eezgui_color_t* data);
-static void display_draw_glyph(const uint8_t *src, uint32_t src_line_offset, int x_glyph, int y_glyph, int width, int height, eezgui_color_t color, eezgui_color_t background_color);
+static void display_draw_glyph(const uint8_t *src, uint32_t glyph_full_width, int x_start, int x_glyph, int y_glyph, int width, int height, uint8_t bpp, eezgui_color_t color, eezgui_color_t background_color);
 
 static bool widget_is_visible(eezgui_ctx_t *ctx, const eezgui_widget_t *widget);
 static void draw_box(eezgui_ctx_t *ctx, const char *text);
@@ -189,7 +189,7 @@ static void display_draw_image(uint16_t x, uint16_t y, uint16_t w, uint16_t h, c
 #endif
 }
 
-static void display_draw_glyph(const uint8_t *src, uint32_t src_line_offset, int x_glyph, int y_glyph, int width, int height, eezgui_color_t color, eezgui_color_t background_color) {
+static void display_draw_glyph(const uint8_t *src, uint32_t glyph_full_width, int x_start, int x_glyph, int y_glyph, int width, int height, uint8_t bpp, eezgui_color_t color, eezgui_color_t background_color) {
     int bg_r = EEZGUI_COLOR_TO_R(background_color);
     int bg_g = EEZGUI_COLOR_TO_G(background_color);
     int bg_b = EEZGUI_COLOR_TO_B(background_color);
@@ -201,21 +201,48 @@ static void display_draw_glyph(const uint8_t *src, uint32_t src_line_offset, int
     eezgui_color_t *glyph_buffer = display_buffer + sizeof(display_buffer) / sizeof(display_buffer[0]) - width * height;
     eezgui_color_t *dst = glyph_buffer;
 
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-            uint8_t alpha = *src++;
+    // Calculate bytes per line (each line ends at byte boundary)
+    int bytes_per_line = (glyph_full_width * bpp + 7) / 8;
 
-            eezgui_color_t color = EEZGUI_MAKE_COLOR(
+    // Max alpha value based on bpp
+    int max_alpha = (1 << bpp) - 1;
+
+    for (int y = 0; y < height; y++) {
+        const uint8_t *line_src = src + y * bytes_per_line;
+
+        for (int x = 0; x < width; x++) {
+            int pixel_x = x_start + x;
+            uint8_t alpha;
+
+            if (bpp == 8) {
+                alpha = line_src[pixel_x];
+            } else if (bpp == 4) {
+                int byte_index = pixel_x / 2;
+                int bit_offset = (1 - (pixel_x % 2)) * 4;  // High nibble first
+                alpha = (line_src[byte_index] >> bit_offset) & 0x0F;
+                alpha = alpha * 255 / max_alpha;
+            } else if (bpp == 2) {
+                int byte_index = pixel_x / 4;
+                int bit_offset = (3 - (pixel_x % 4)) * 2;  // High bits first
+                alpha = (line_src[byte_index] >> bit_offset) & 0x03;
+                alpha = alpha * 255 / max_alpha;
+            } else { // bpp == 1
+                int byte_index = pixel_x / 8;
+                int bit_offset = 7 - (pixel_x % 8);  // High bit first
+                alpha = (line_src[byte_index] >> bit_offset) & 0x01;
+                alpha = alpha * 255;  // 0 or 255
+            }
+
+            eezgui_color_t pixel_color = EEZGUI_MAKE_COLOR(
                 bg_r + diff_r * alpha / 255,
                 bg_g + diff_g * alpha / 255,
                 bg_b + diff_b * alpha / 255
             );
 #if defined(EEZ_PLATFORM_STM32)
-            color = (color >> 8) | (color << 8);
+            pixel_color = (pixel_color >> 8) | (pixel_color << 8);
 #endif                
-            *dst++ = color;
+            *dst++ = pixel_color;
         }
-        src += src_line_offset;
     }
 
     display_draw_image(x_glyph, y_glyph, width, height, glyph_buffer);
@@ -907,28 +934,31 @@ void font_draw_str(const eezgui_font_data_t *font, const char *text, int text_le
             int y_glyph = y1 + font->ascent - (glyph->y + glyph->h);
 
             // draw glyph pixels
-            int iStartByte = 0;
+            int x_start = 0;  // x offset within the glyph (in pixels)
             if (x_glyph < clip_x1) {
                 int dx_off = clip_x1 - x_glyph;
-                iStartByte = dx_off;
+                x_start = dx_off;
                 x_glyph = clip_x1;
             }
 
-			if (iStartByte < glyph->w) {
-				int offset = 0;
+			if (x_start < glyph->w) {
+				// Calculate bytes per line (each line ends at byte boundary)
+				int bytes_per_line = (glyph->w * font->bpp + 7) / 8;
+
+				int byte_offset = 0;
 				int glyph_height = glyph->h;
 				if (y_glyph < clip_y1) {
 					int dy_off = clip_y1 - y_glyph;
-					offset += dy_off * glyph->w;
+					byte_offset += dy_off * bytes_per_line;
 					glyph_height -= dy_off;
 					y_glyph = clip_y1;
 				}
 
 				int width;
-				if (x_glyph + (glyph->w - iStartByte) - 1 > clip_x2) {
+				if (x_glyph + (glyph->w - x_start) - 1 > clip_x2) {
 					width = clip_x2 - x_glyph + 1;
 				} else {
-					width = (glyph->w - iStartByte);
+					width = (glyph->w - x_start);
 				}
 
 				int height;
@@ -939,7 +969,7 @@ void font_draw_str(const eezgui_font_data_t *font, const char *text, int text_le
 				}
 
 				if (width > 0 && height > 0) {
-					display_draw_glyph(font->pixels + glyph->pixels_index + offset + iStartByte, glyph->w - width, x_glyph, y_glyph, width, height, color, backgroundColor);
+					display_draw_glyph(font->pixels + glyph->pixels_index + byte_offset, glyph->w, x_start, x_glyph, y_glyph, width, height, font->bpp, color, backgroundColor);
 				}
 			}
 
