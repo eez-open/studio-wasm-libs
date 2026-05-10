@@ -197,6 +197,17 @@ EM_PORT_API(void) setButtonWidgetText(eezgui_button_t *widget, uint16_t text_pro
     widget->text = text_prop;
 }
 
+// Button-specific: set is_enabled property index
+EM_PORT_API(void) setButtonWidgetEnabled(eezgui_button_t *widget, uint16_t is_enabled) {
+    widget->is_enabled = is_enabled;
+}
+
+
+// Button-specific: set is_enabled property index
+EM_PORT_API(void) setButtonWidgetDisabledStyle(eezgui_button_t *widget, uint16_t disabled_style) {
+    widget->disabled_style = disabled_style;
+}
+
 // Switch-specific: set is_checked property index
 EM_PORT_API(void) setSwitchWidgetChecked(eezgui_switch_t *widget, uint16_t is_checked_prop) {
     widget->is_checked = is_checked_prop;
@@ -377,6 +388,8 @@ EM_PORT_API(int) offsetofTextWidgetText(void) { return offsetof(eezgui_text_t, t
 
 // eezgui_button_t offsets
 EM_PORT_API(int) offsetofButtonWidgetText(void) { return offsetof(eezgui_button_t, text); }
+EM_PORT_API(int) offsetofButtonWidgetEnabled(void) { return offsetof(eezgui_button_t, is_enabled); }
+EM_PORT_API(int) offsetofButtonWidgetDisabledStyle(void) { return offsetof(eezgui_button_t, disabled_style); }
 
 // eezgui_switch_t offsets
 EM_PORT_API(int) offsetofSwitchWidgetChecked(void) { return offsetof(eezgui_switch_t, is_checked); }

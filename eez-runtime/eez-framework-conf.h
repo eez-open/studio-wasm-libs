@@ -4,7 +4,7 @@
 
 extern uint32_t DISPLAY_WIDTH;
 extern uint32_t DISPLAY_HEIGHT;
-static const uint32_t DISPLAY_BPP = 32; // RGBA8888
+#define DISPLAY_BPP 32
 
 static const char *TITLE = "Min EEZ Sample";
 static const char *ICON = "min_eez_sample.png";
@@ -25,3 +25,4 @@ static const uint32_t GUI_STATE_BUFFER_SIZE = 128 * 1024;
 #define EEZ_STUDIO_FLOW_RUNTIME
 
 #define FILL_ROUNDED_RECT_MAX_CACHE_SIZE 2 * 1024 * 1024
+//#define CONF_FAST_ROUND_RECT
