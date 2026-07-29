@@ -1,5 +1,6 @@
 #include <emscripten.h>
 
+#include "lz4.h"
 #include "lz4hc.h"
 
 #define EM_PORT_API(rettype) rettype EMSCRIPTEN_KEEPALIVE
@@ -10,4 +11,8 @@ extern "C" EM_PORT_API(int) encodeBound(int inputSize) {
 
 extern "C" EM_PORT_API(int) encodeBlockHC(const char* src, char* dst, int srcSize, int dstCapacity, int compressionLevel) {
     return LZ4_compress_HC(src, dst, srcSize, dstCapacity, compressionLevel);
+}
+
+extern "C" EM_PORT_API(int) encodeBlock(const char* src, char* dst, int srcSize, int dstCapacity) {
+    return LZ4_compress_default(src, dst, srcSize, dstCapacity);
 }
