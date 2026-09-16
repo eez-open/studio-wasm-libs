@@ -1858,3 +1858,5 @@ _lv_win_add_title
 _lv_win_get_header
 _lv_win_add_button
 _lv_win_get_content
+_eez_flow_set_buttonmatrix_text
+_eez_flow_set_buttonmatrix_map

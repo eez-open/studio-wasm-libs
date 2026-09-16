@@ -1,0 +1,83 @@
+name: LVGL regression
+on:
+  workflow_dispatch:
+  push:
+    branches: [lvgl-textarea-buttonmatrix]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  wasm:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        lvgl: [8.4.0, 9.2.2, 9.3.0, 9.4.0, 9.5.0]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch pinned framework and LVGL
+        run: |
+          git submodule set-url eez-framework https://github.com/AwangYes/eez-framework.git
+          git submodule update --init --depth 1 eez-framework lvgl-runtime/v${{ matrix.lvgl }}/lvgl
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install pinned Emscripten
+        run: |
+          git clone --depth 1 --branch 4.0.20 https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          "$RUNNER_TEMP/emsdk/emsdk" install 4.0.20
+          "$RUNNER_TEMP/emsdk/emsdk" activate 4.0.20
+      - name: Build FreeType and test the runtime
+        run: |
+          source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
+          git clone https://github.com/freetype/freetype.git "$RUNNER_TEMP/freetype"
+          git -C "$RUNNER_TEMP/freetype" checkout 526ec5c47b9ebccc4754c85ac0c0cdf7c85a5e9b
+          export FREETYPE_SOURCE_DIR="$RUNNER_TEMP/freetype"
+          export FREETYPE_LIBRARY="$FREETYPE_SOURCE_DIR/build/libfreetype.a"
+          emcmake cmake -S "$FREETYPE_SOURCE_DIR" -B "$FREETYPE_SOURCE_DIR/build" -G Ninja -DCMAKE_BUILD_TYPE=Release -DFT_DISABLE_ZLIB=ON -DFT_DISABLE_BZIP2=ON -DFT_DISABLE_PNG=ON -DFT_DISABLE_HARFBUZZ=ON -DFT_DISABLE_BROTLI=ON
+          cmake --build "$FREETYPE_SOURCE_DIR/build" --parallel 2
+          scripts/build-lvgl-tests.sh ${{ matrix.lvgl }}
+      - name: Record rebuilt release engine checksums
+        run: |
+          sha256sum release/wasm/lvgl_runtime_v${{ matrix.lvgl }}.{js,wasm}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lvgl-${{ matrix.lvgl }}
+          path: release/wasm/lvgl_runtime_v${{ matrix.lvgl }}.*
+          if-no-files-found: error
+  amalgamation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git submodule set-url eez-framework https://github.com/AwangYes/eez-framework.git
+          git submodule update --init --depth 1 eez-framework
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: |
+          export SOURCE_DATE_EPOCH=$(git -C eez-framework show -s --format=%ct HEAD)
+          export TZ=UTC
+          cd scripts/eez-framework-amalgamation
+          npm ci
+          npm run cleanup.test
+          npm start
+      - run: git diff --exit-code -- release/eez-framework-amalgamation
+
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        lvgl: [8.4.0, 9.5.0]
+    steps:
+      - uses: actions/checkout@v4
+      - run: git submodule update --init --depth 1 lvgl-runtime/v${{ matrix.lvgl }}/lvgl
+      - name: Compile and execute amalgamation with sanitizers
+        run: |
+          cmake -S tests/native -B "$RUNNER_TEMP/native" -G Ninja -DLVGL_VERSION=${{ matrix.lvgl }}
+          cmake --build "$RUNNER_TEMP/native" --target lvgl-native-tests --parallel 2
+          "$RUNNER_TEMP/native/lvgl-native-tests"

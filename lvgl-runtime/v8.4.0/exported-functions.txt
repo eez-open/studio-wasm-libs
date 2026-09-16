@@ -1144,3 +1144,5 @@ _lv_textarea_get_text_selection
 _lv_textarea_get_password_show_time
 _lv_textarea_cursor_right
 _lv_textarea_cursor_left
+_eez_flow_set_buttonmatrix_text
+_eez_flow_set_buttonmatrix_map
