@@ -67,7 +67,7 @@ namespace eez {
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace eez {
-    bool g_shutdown;
+    std::atomic_bool g_shutdown;
     void shutdown() { g_shutdown = true; }
 
     namespace sound {
