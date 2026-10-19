@@ -95,7 +95,8 @@ const CONFIG = {
         "flow/components/show_message_box.cpp",
         "flow/components/roller_widget.cpp",
         "flow/components/roller_widget.h",
-        "flow/components/user_widget.cpp"
+        "flow/components/user_widget.cpp",
+        "flow/components/yt_chart_widget.h"
     ],
     headersFront: ["conf-internal.h"],
     headersCPP: [
