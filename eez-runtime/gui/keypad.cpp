@@ -119,12 +119,13 @@ void showKeyboard(Value label, Value initialText, Value minChars, Value maxChars
 	eez::gui::startTextKeyboard(label.getString(), initialText.getString(), minChars.toInt32(), maxChars.toInt32(), isPassword, onOk, onCancel, nullptr);
 }
 
-void showKeypad(Value label, Value initialValue, Value min, Value max, Unit unit, void(*onOk)(float), void(*onCancel)()) {
+void showKeypad(Value label, Value initialValue, Value min, Value max, Unit unit, float precision, void(*onOk)(float), void(*onCancel)()) {
 	NumericKeypadOptions options;
 	options.pageId = PAGE_ID_NUMERIC_KEYPAD;
 	options.min = min.toFloat();
 	options.max = max.toFloat();
 	options.editValueUnit = unit;
+	options.encoderPrecision = precision;
     options.flags.dotButtonEnabled = initialValue.isFloat() || initialValue.isDouble();
     options.flags.unitChangeEnabled = false;
 
