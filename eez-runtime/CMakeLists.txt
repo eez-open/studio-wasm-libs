@@ -25,7 +25,8 @@ include_directories(
     ../eez-framework/src/eez/platform/simulator
 )
 
-# eez-framework
+# eez-framework, with vector fonts
+set(EEZ_FRAMEWORK_VECTOR_FONTS ON CACHE BOOL "" FORCE)
 add_subdirectory(../eez-framework [EXCLUDE_FROM_ALL])
 
 # eez-runtime
