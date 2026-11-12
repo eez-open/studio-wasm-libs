@@ -45,8 +45,16 @@ namespace eez {
         const int EEZ_COLOR_ID_BACKDROP = COLOR_ID_BACKDROP;
         const int EEZ_FONT_ID_SHADOW = FONT_ID_SHADOW;
 
+        // set by the page editor of Studio (editor.cpp), which draws one page
+        // on a transparent screen
+        bool g_editorMode = false;
+
         static class : public AppContext {
         public:
+            bool hasPageBackdrops() override {
+                return !g_editorMode;
+            }
+
             void stateManagment() override {
                 AppContext::stateManagment();
                 if (getActivePageId() == PAGE_ID_NONE) {
