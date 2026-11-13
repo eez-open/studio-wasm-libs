@@ -7,6 +7,8 @@
 
 #include <emscripten.h>
 
+#include <vector>
+
 #include <eez/core/assets.h>
 #include <eez/core/memory.h>
 #include <eez/gui/gui.h>
@@ -35,6 +37,9 @@ extern bool g_editorMode;
 
 static bool g_editorStarted = false;
 
+// the assets of the last editorLoad (Studio keeps the buffer)
+static const uint8_t *g_editorAssets;
+
 // a flow error never stops the editor: the widget is drawn with what its
 // properties evaluated to
 static void editorStopScript() {
@@ -43,6 +48,8 @@ static void editorStopScript() {
 EM_PORT_API(void) editorLoad(uint8_t *assets, uint32_t assetsSize, uint32_t displayWidth, uint32_t displayHeight) {
     using namespace eez;
     using namespace eez::gui;
+
+    g_editorAssets = assets;
 
     if (!g_editorStarted) {
         g_editorMode = true;
@@ -105,4 +112,29 @@ EM_PORT_API(uint8_t *) editorRender() {
     }
 
     return getSyncedBuffer();
+}
+
+// The boxes of the widgets of the page drawn last (editorRender), in the order
+// the framework enumerates them (hidden widgets are not enumerated): [count,
+// then for each widget its offset in the assets of the last editorLoad and x,
+// y, w, h on the display]. Studio maps the offsets to its widgets, so the
+// editor shows the widgets of rows and columns where the framework lays them
+// out (eez-framework gui/layout.h). The values are valid until the next call.
+static std::vector<int32_t> g_widgetBoxes;
+
+static void collectWidgetBox() {
+    auto &widgetCursor = eez::gui::g_widgetCursor;
+    g_widgetBoxes.push_back((int32_t)((const uint8_t *)widgetCursor.widget - g_editorAssets));
+    g_widgetBoxes.push_back(widgetCursor.x);
+    g_widgetBoxes.push_back(widgetCursor.y);
+    g_widgetBoxes.push_back(widgetCursor.w);
+    g_widgetBoxes.push_back(widgetCursor.h);
+}
+
+EM_PORT_API(int32_t *) editorGetWidgetBoxes() {
+    g_widgetBoxes.clear();
+    g_widgetBoxes.push_back(0);
+    eez::gui::forEachWidget(collectWidgetBox);
+    g_widgetBoxes[0] = (int32_t)((g_widgetBoxes.size() - 1) / 5);
+    return g_widgetBoxes.data();
 }
