@@ -129,6 +129,7 @@ const CONFIG = {
         "flow/components/mqtt.h",
         "flow/components/on_event.h",
         "flow/components/set_variable.h",
+        "flow/components/show_page.h",
         "flow/components/sort_array.h",
         "flow/components/switch.h"
     ],

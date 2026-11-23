@@ -469,9 +469,7 @@ EM_PORT_API(void *) lvglGetFlowState(void *flowState, unsigned userWidgetCompone
     return getFlowState(flowState, userWidgetComponentIndexOrPageIndex);
 }
 
-EM_PORT_API(void) setDebuggerMessageSubsciptionFilter(uint32_t filter) {
-    eez::flow::setDebuggerMessageSubsciptionFilter(filter);
-}
+// The common Studio API exports setDebuggerMessageSubsciptionFilter.
 
 ////////////////////////////////////////////////////////////////////////////////
 

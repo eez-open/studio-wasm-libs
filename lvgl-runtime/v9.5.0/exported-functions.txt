@@ -1,4 +1,5 @@
 _malloc
+_getValueForInspection
 _free
 _strcmp
 _strncmp
